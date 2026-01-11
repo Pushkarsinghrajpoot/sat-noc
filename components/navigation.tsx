@@ -26,13 +26,13 @@ export default function Navigation() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
             <a href="/" className="text-sm text-muted-foreground hover:text-foreground transition">
-              Home
+              Overview
             </a>
             <a href="#faq" className="text-sm text-muted-foreground hover:text-foreground transition">
-              FAQ
+              Capabilities
             </a>
             <a href="#compare" className="text-sm text-muted-foreground hover:text-foreground transition">
-              Compare Plans
+              Plans and pricing
             </a>
           </div>
 
@@ -55,13 +55,13 @@ export default function Navigation() {
         {isOpen && (
           <div className="md:hidden pb-4 space-y-2">
             <a href="/" className="block text-sm text-muted-foreground hover:text-foreground transition py-2">
-              Home
+              Overview
             </a>
             <a href="#faq" className="block text-sm text-muted-foreground hover:text-foreground transition py-2">
-              FAQ
+              Capabilities
             </a>
             <a href="#compare" className="block text-sm text-muted-foreground hover:text-foreground transition py-2">
-              Compare Plans
+              Plans and pricing
             </a>
             <a href="/demo">
               <button className="w-full mt-4 px-6 py-2 rounded-full bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 transition">

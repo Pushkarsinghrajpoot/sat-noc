@@ -44,7 +44,7 @@ export default function FAQ() {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(0)
 
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-3xl mx-auto">
+    <section id="faq" className="py-20 px-4 sm:px-6 lg:px-8 max-w-3xl mx-auto">
       <h2 className="text-4xl font-bold mb-12">Frequently asked questions</h2>
 
       <div className="space-y-4">

@@ -88,14 +88,14 @@ export default function PricingCards() {
         </div>
         <h1 className="text-5xl sm:text-6xl font-bold mb-4">
           Power your uptime with a{" "}
-          <span className="text-blue-500">SAT NOC</span> plan
+          <span className="text-blue-500">Pro</span> plan
         </h1>
         <div className="mt-8">
           <Link 
             href="/plans/pro"
             className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full font-medium transition-all transform hover:scale-105"
           >
-            Get SAT NOC Pro - Most Popular
+            Get Pro - Most Popular
             <ArrowRight size={18} />
           </Link>
         </div>
