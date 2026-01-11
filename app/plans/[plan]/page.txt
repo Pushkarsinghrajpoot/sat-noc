@@ -1,0 +1,351 @@
+"use client"
+
+import type React from "react"
+
+import { useState } from "react"
+import Link from "next/link"
+import { ArrowLeft } from "lucide-react"
+import { useParams } from "next/navigation"
+
+const planDetails = {
+  lite: {
+    name: "Lite",
+    title: "SAT NOC Lite Plan",
+    originalPrice: "$149",
+    firstYearPrice: "$89",
+    offerPrice: "$79",
+    monthlyCommitment: "$109",
+    responseSLA: "45 minutes",
+    prioritySLA: "Watch & alert only",
+    description: "Perfect for small teams and startups who need 24×7 infrastructure monitoring and alerting.",
+    features: [
+      "24×7 monitoring of infra & applications",
+      "Servers, network devices & Applications monitoring",
+      "Alerts & ticket creation & escalation",
+      "Monthly availability reporting",
+      "Ticket management and escalation procedures",
+      "Dashboard access",
+    ],
+    additionalServices: [
+      "Custom alert rules configuration",
+      "Integration with your existing tools",
+      "Email and Slack notifications",
+      "Monthly performance reports",
+    ],
+  },
+  pro: {
+    name: "Pro",
+    title: "SAT NOC Pro Plan",
+    originalPrice: "$249",
+    firstYearPrice: "$169",
+    offerPrice: "$149",
+    monthlyCommitment: "$199",
+    responseSLA: "30 minutes",
+    prioritySLA: "Monitor & fix common issues",
+    description: "Ideal for growing businesses with dedicated incident management and proactive monitoring.",
+    features: [
+      "All Lite features",
+      "Incident ownership till resolution",
+      "Troubleshooting, fixes & standard changes",
+      "ISP / OEM vendor coordination",
+      "Alert noise reduction & tuning",
+      "Custom dashboards & reports",
+      "Priority escalation support",
+    ],
+    additionalServices: [
+      "Advanced incident management",
+      "Vendor coordination",
+      "Performance trend analysis",
+      "Quarterly business reviews",
+    ],
+  },
+  ultra: {
+    name: "Ultra",
+    title: "SAT NOC Ultra Plan",
+    originalPrice: "$299",
+    firstYearPrice: "$219",
+    offerPrice: "$199",
+    monthlyCommitment: "$259",
+    responseSLA: "15 minutes",
+    prioritySLA: "Prevent issues proactively",
+    description: "Comprehensive NOC service with proactive problem management and automation capabilities.",
+    features: [
+      "All Pro features",
+      "Proactive problem management",
+      "Capacity & performance trends",
+      "Automation via runbooks",
+      "Advanced impact analysis",
+      "Optimization roadmap",
+      "Strategic consulting sessions",
+    ],
+    additionalServices: [
+      "Runbook automation creation",
+      "Capacity planning and forecasting",
+      "Optimization recommendations",
+      "Bi-weekly strategic reviews",
+    ],
+  },
+  enterprise: {
+    name: "Enterprise",
+    title: "SAT NOC Enterprise Plan",
+    pricing: "Custom Pricing",
+    responseSLA: "Priority/Custom SLA",
+    prioritySLA: "Engineering-led NOC",
+    description: "White-glove, fully customized NOC service with dedicated engineering team and governance.",
+    features: [
+      "All Ultra features and capabilities",
+      "Dedicated service governance",
+      "Named escalation manager",
+      "Monthly engineering review",
+      "Strategic guidance and optimization roadmap",
+      "Enterprise NOC platform and ticketing software licenses",
+      "Custom integration support",
+      "Priority support with 24/7 access to engineers",
+    ],
+    additionalServices: [
+      "Dedicated NOC team",
+      "Custom SLA negotiations",
+      "Executive reporting",
+      "Quarterly business reviews with C-level",
+      "Custom development and integrations",
+      "Training and knowledge transfer",
+    ],
+  },
+}
+
+export default function PlanPage() {
+  const params = useParams()
+  const [formSubmitted, setFormSubmitted] = useState(false)
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    place: "",
+  })
+
+  const planKey = (params.plan as string)?.toLowerCase() || ""
+  const plan = planDetails[planKey as keyof typeof planDetails]
+
+  if (!plan) {
+    return (
+      <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-4xl font-bold mb-4">Plan not found</h1>
+          <p className="text-muted-foreground mb-6">The plan you're looking for doesn't exist.</p>
+          <Link href="/" className="text-blue-400 hover:text-blue-300 font-semibold">
+            Return to pricing
+          </Link>
+        </div>
+      </div>
+    )
+  }
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target
+    setFormData((prev) => ({ ...prev, [name]: value }))
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    try {
+      const response = await fetch('/api/submit-inquiry', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          planName: plan.name,
+          fullName: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          location: formData.place,
+        }),
+      })
+
+      if (!response.ok) {
+        const error = await response.json()
+        throw new Error(error.error || 'Failed to submit form')
+      }
+
+      setFormSubmitted(true)
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        place: "",
+      })
+      
+      // Reset form after 5 seconds
+      setTimeout(() => {
+        setFormSubmitted(false)
+      }, 5000)
+      
+    } catch (error) {
+      console.error('Error submitting form:', error)
+      alert('Failed to submit form. Please try again.')
+    }
+  }
+
+  return (
+    <main className="min-h-screen bg-background text-foreground">
+      {/* Header */}
+      <div className="border-b border-muted/30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <Link href="/" className="flex items-center gap-2 text-blue-400 hover:text-blue-300 mb-4 w-fit">
+            <ArrowLeft size={20} />
+            Back to pricing
+          </Link>
+          <h1 className="text-4xl font-bold mb-2">{plan.title}</h1>
+          <p className="text-muted-foreground text-lg">{plan.description}</p>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          {/* Plan Details */}
+          <div>
+            {/* Pricing Section */}
+            <div className="bg-muted/30 border border-muted rounded-2xl p-8 mb-8">
+              <h2 className="text-2xl font-bold mb-6">Plan Details</h2>
+
+              <div className="space-y-6 mb-8">
+                <div>
+                  <p className="text-muted-foreground text-sm mb-2">Annual Pricing</p>
+                  <div className="flex items-baseline gap-3">
+                    {plan.originalPrice && (
+                      <span className="text-2xl line-through text-muted-foreground">{plan.originalPrice}</span>
+                    )}
+                    <span className="text-4xl font-bold">{plan.firstYearPrice}</span>
+                    {plan.offerPrice && (
+                      <span className="text-green-400 font-semibold text-sm bg-green-500/20 px-2 py-1 rounded">
+                        Offer: {plan.offerPrice}
+                      </span>
+                    )}
+                  </div>
+                  {plan.monthlyCommitment && (
+                    <p className="text-muted-foreground text-sm mt-2">Monthly: {plan.monthlyCommitment}</p>
+                  )}
+                </div>
+
+                <div className="border-t border-muted pt-6">
+                  <div className="flex justify-between mb-4">
+                    <span className="text-muted-foreground">Response SLA:</span>
+                    <span className="font-semibold">{plan.responseSLA}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Service Level:</span>
+                    <span className="font-semibold text-blue-400">{plan.prioritySLA}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Features */}
+            <div className="mb-8">
+              <h3 className="text-xl font-bold mb-4">Key Features</h3>
+              <ul className="space-y-3">
+                {plan.features.map((feature, index) => (
+                  <li key={index} className="flex gap-3">
+                    <span className="text-blue-400 font-bold flex-shrink-0">✓</span>
+                    <span className="text-foreground">{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Additional Services */}
+            <div>
+              <h3 className="text-xl font-bold mb-4">Additional Services</h3>
+              <ul className="space-y-3">
+                {plan.additionalServices.map((service, index) => (
+                  <li key={index} className="flex gap-3">
+                    <span className="text-purple-400 font-bold flex-shrink-0">◆</span>
+                    <span className="text-muted-foreground">{service}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          {/* Contact Form */}
+          <div>
+            <div className="bg-muted/30 border border-muted rounded-2xl p-8 sticky top-8">
+              <h2 className="text-2xl font-bold mb-6">Get Started</h2>
+
+              {formSubmitted ? (
+                <div className="bg-green-500/20 border border-green-500/50 rounded-lg p-6 text-center">
+                  <h3 className="text-lg font-semibold text-green-400 mb-2">Thank You!</h3>
+                  <p className="text-muted-foreground">
+                    We'll be in touch shortly with information about the {plan.name} plan.
+                  </p>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-5">
+                  <div>
+                    <label className="block text-sm font-semibold mb-2">Full Name *</label>
+                    <input
+                      type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      required
+                      className="w-full bg-background border border-muted rounded-lg px-4 py-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition"
+                      placeholder="John Doe"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold mb-2">Email Address *</label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      required
+                      className="w-full bg-background border border-muted rounded-lg px-4 py-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition"
+                      placeholder="john@company.com"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold mb-2">Phone Number *</label>
+                    <input
+                      type="tel"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      required
+                      className="w-full bg-background border border-muted rounded-lg px-4 py-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition"
+                      placeholder="+1 (555) 000-0000"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold mb-2">Location/Place *</label>
+                    <input
+                      type="text"
+                      name="place"
+                      value={formData.place}
+                      onChange={handleInputChange}
+                      required
+                      className="w-full bg-background border border-muted rounded-lg px-4 py-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition"
+                      placeholder="City, Country"
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-background transition"
+                  >
+                    Get Started
+                  </button>
+                </form>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  )
+}
