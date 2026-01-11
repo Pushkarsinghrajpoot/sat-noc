@@ -355,51 +355,80 @@ export default function PlanPage() {
           <div>
             {/* Pricing */}
             <div className="bg-muted/30 border border-muted rounded-2xl p-8 mb-8">
-              <h2 className="text-2xl font-bold mb-6">Plan Details</h2>
+              <h2 className="text-2xl font-bold mb-6">{plan.title} Plan</h2>
 
-              <div className="space-y-6 mb-8">
-                <div>
-                  <p className="text-muted-foreground text-sm mb-2">
-                    Annual Pricing
-                  </p>
-                  <div className="flex items-baseline gap-3">
-                    {plan.originalPrice && (
-                      <span className="text-2xl line-through text-muted-foreground">
-                        {plan.originalPrice}
-                      </span>
-                    )}
-                    <span className="text-4xl font-bold">
-                      {plan.firstYearPrice}
-                    </span>
-                    {plan.offerPrice && (
-                      <span className="text-green-400 font-semibold text-sm bg-green-500/20 px-2 py-1 rounded">
-                        Offer: {plan.offerPrice}
-                      </span>
-                    )}
-                  </div>
-                  {plan.monthlyCommitment && (
-                    <p className="text-muted-foreground text-sm mt-2">
-                      Monthly: {plan.monthlyCommitment}
-                    </p>
-                  )}
+              <div className="space-y-4">
+                {/* Best For */}
+                <div className="bg-black/20 rounded-lg p-4">
+                  <h3 className="text-sm font-bold text-blue-400 mb-2">Best For</h3>
+                  <p className="text-sm text-gray-300">{plan.prioritySLA}</p>
                 </div>
 
-                <div className="border-t border-muted pt-6">
-                  <div className="flex justify-between mb-4">
-                    <span className="text-muted-foreground">Response SLA:</span>
-                    <span className="font-semibold">
-                      {plan.responseSLA}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">
-                      Service Level:
-                    </span>
-                    <span className="font-semibold text-blue-400">
-                      {plan.prioritySLA}
-                    </span>
-                  </div>
+                {/* Response SLA */}
+                <div className="bg-black/20 rounded-lg p-4">
+                  <h3 className="text-sm font-bold text-blue-400 mb-2">Response SLA</h3>
+                  <p className="text-lg font-semibold">{plan.responseSLA}</p>
                 </div>
+
+                {planKey !== 'enterprise' ? (
+                  <>
+                    {/* Pricing Table */}
+                    <div className="bg-black/20 rounded-lg p-4">
+                      <h3 className="text-sm font-bold text-blue-400 mb-3">Pricing Options</h3>
+                      <div className="space-y-3">
+                        <div className="flex justify-between items-center pb-2 border-b border-gray-700">
+                          <span className="text-sm text-gray-400">List Price (Per Device/Month)</span>
+                          <span className="font-bold text-lg">{plan.originalPrice}</span>
+                        </div>
+                        <div className="flex justify-between items-center pb-2 border-b border-gray-700">
+                          <span className="text-sm text-gray-400">Annual Commitment (Year-1)</span>
+                          <span className="font-bold text-lg text-green-400">{plan.firstYearPrice}</span>
+                        </div>
+                        <div className="flex justify-between items-center pb-2 border-b border-gray-700">
+                          <span className="text-sm text-gray-400">Launch Offer (Valid until 31 Jan)</span>
+                          <span className="font-bold text-lg text-blue-400">{plan.offerPrice}</span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <span className="text-sm text-gray-400">Flexible Monthly Price</span>
+                          <span className="font-bold text-lg">{plan.monthlyCommitment}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Your Configuration */}
+                    <div className="bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-lg p-4 border border-blue-500/30">
+                      <h3 className="text-sm font-bold text-blue-400 mb-3">Your Configuration</h3>
+                      <div className="space-y-2 text-sm">
+                        <div className="flex justify-between">
+                          <span className="text-gray-400">Number of Systems:</span>
+                          <span className="font-semibold">{formData.noOfSystems}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-400">Plan Type:</span>
+                          <span className="font-semibold">
+                            {formData.yearlyPlan ? 'Annual (12 months)' : `${formData.months} month${formData.months > 1 ? 's' : ''}`}
+                          </span>
+                        </div>
+                        <div className="border-t border-blue-500/30 pt-2 mt-2">
+                          <div className="flex justify-between mb-1">
+                            <span className="text-gray-400">Monthly Cost:</span>
+                            <span className="font-bold text-lg text-green-400">SAR {calculatePricing().monthlyPrice}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="font-semibold">Total Cost:</span>
+                            <span className="font-bold text-2xl text-blue-400">SAR {calculatePricing().totalPrice}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <div className="bg-black/20 rounded-lg p-4">
+                    <h3 className="text-sm font-bold text-blue-400 mb-2">Pricing</h3>
+                    <p className="text-lg font-semibold text-purple-400">Custom Pricing</p>
+                    <p className="text-sm text-gray-400 mt-2">Contact our sales team for a tailored quote</p>
+                  </div>
+                )}
               </div>
             </div>
 
