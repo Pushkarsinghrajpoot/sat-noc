@@ -26,13 +26,13 @@ export default function Navigation() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
             <a href="/" className="text-sm text-muted-foreground hover:text-foreground transition">
-              Overview
+              Home
             </a>
-            <a href="/" className="text-sm text-muted-foreground hover:text-foreground transition">
-              Capabilities
+            <a href="#faq" className="text-sm text-muted-foreground hover:text-foreground transition">
+              FAQ
             </a>
-            <a href="/" className="text-sm text-muted-foreground hover:text-foreground transition">
-              Plans and pricing
+            <a href="#compare" className="text-sm text-muted-foreground hover:text-foreground transition">
+              Compare Plans
             </a>
           </div>
 
@@ -54,14 +54,14 @@ export default function Navigation() {
         {/* Mobile Navigation */}
         {isOpen && (
           <div className="md:hidden pb-4 space-y-2">
-            <a href="#overview" className="block text-sm text-muted-foreground hover:text-foreground transition py-2">
-              Overview
+            <a href="/" className="block text-sm text-muted-foreground hover:text-foreground transition py-2">
+              Home
             </a>
-            <a href="#ai" className="block text-sm text-muted-foreground hover:text-foreground transition py-2">
-              Capabilities
+            <a href="#faq" className="block text-sm text-muted-foreground hover:text-foreground transition py-2">
+              FAQ
             </a>
-            <a href="#pricing" className="block text-sm text-muted-foreground hover:text-foreground transition py-2">
-              Plans and pricing
+            <a href="#compare" className="block text-sm text-muted-foreground hover:text-foreground transition py-2">
+              Compare Plans
             </a>
             <a href="/demo">
               <button className="w-full mt-4 px-6 py-2 rounded-full bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 transition">

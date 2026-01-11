@@ -140,15 +140,15 @@ export default function ComparisonTable() {
           <div className="grid grid-cols-5 gap-4 mb-8 sticky top-0 bg-black/60 backdrop-blur-lg z-10 py-4 rounded-2xl px-4">
             <div className="col-span-1"></div>
             <div className="text-center">
-              <div className="text-blue-400 font-bold text-lg mb-1">SAT NOC Lite</div>
+              <div className="text-blue-400 font-bold text-lg mb-1">Lite</div>
               <div className="text-sm text-gray-400">SAR 79/month</div>
             </div>
             <div className="text-center">
-              <div className="text-blue-400 font-bold text-lg mb-1">SAT NOC Pro</div>
+              <div className="text-blue-400 font-bold text-lg mb-1">Pro</div>
               <div className="text-sm text-gray-400">SAR 149/month</div>
             </div>
             <div className="text-center">
-              <div className="text-blue-400 font-bold text-lg mb-1">SAT NOC Ultra</div>
+              <div className="text-blue-400 font-bold text-lg mb-1">Ultra</div>
               <div className="text-sm text-gray-400">SAR 199/month</div>
             </div>
             <div className="text-center">
