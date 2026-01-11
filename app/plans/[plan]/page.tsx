@@ -126,6 +126,9 @@ export default function PlanPage() {
     email: "",
     phone: "",
     place: "",
+    yearlyPlan: false,
+    noOfSystems: 1,
+    months: 1,
   });
 
   const [submissionData, setSubmissionData] = useState<{
@@ -135,6 +138,11 @@ export default function PlanPage() {
     phone: string;
     place: string;
     planName: string;
+    yearlyPlan: boolean;
+    noOfSystems: number;
+    months: number;
+    monthlyPrice: number;
+    totalPrice: number;
     createdAt: string;
   } | null>(null);
 
@@ -163,14 +171,46 @@ export default function PlanPage() {
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    const { name, value, type } = e.target;
+    if (type === 'checkbox') {
+      const checked = (e.target as HTMLInputElement).checked;
+      setFormData((prev) => ({ ...prev, [name]: checked }));
+    } else if (type === 'number') {
+      setFormData((prev) => ({ ...prev, [name]: parseInt(value) || 1 }));
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
+  };
+
+  const calculatePricing = () => {
+    if (planKey === 'enterprise') {
+      return { monthlyPrice: 0, totalPrice: 0 };
+    }
+
+    const prices: any = {
+      lite: { yearly: 89, monthly: 109, offer: 79 },
+      pro: { yearly: 169, monthly: 199, offer: 149 },
+      ultra: { yearly: 219, monthly: 259, offer: 199 },
+    };
+
+    const planPrices = prices[planKey];
+    if (!planPrices) return { monthlyPrice: 0, totalPrice: 0 };
+
+    const basePrice = formData.yearlyPlan ? planPrices.yearly : planPrices.monthly;
+    const monthlyPrice = basePrice * formData.noOfSystems;
+    const totalPrice = formData.yearlyPlan 
+      ? monthlyPrice * 12 
+      : monthlyPrice * formData.months;
+
+    return { monthlyPrice, totalPrice };
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
+      const pricing = calculatePricing();
+
       const res = await fetch("/api/submit-inquiry", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -180,6 +220,9 @@ export default function PlanPage() {
           email: formData.email,
           phone: formData.phone,
           location: formData.place,
+          yearlyPlan: formData.yearlyPlan,
+          noOfSystems: formData.noOfSystems,
+          months: formData.months,
         }),
       });
 
@@ -209,6 +252,11 @@ export default function PlanPage() {
         phone: formData.phone,
         place: formData.place,
         planName: plan.name,
+        yearlyPlan: formData.yearlyPlan,
+        noOfSystems: formData.noOfSystems,
+        months: formData.months,
+        monthlyPrice: pricing.monthlyPrice,
+        totalPrice: pricing.totalPrice,
         createdAt: createdAtFormatted,
       });
 
@@ -254,10 +302,22 @@ export default function PlanPage() {
     pdf.text(`Location: ${submissionData.place}`, 20, 145);
 
     pdf.setFont(undefined, "bold");
-    pdf.text("Plan Selected", 20, 165);
+    pdf.text("Plan Details", 20, 165);
 
     pdf.setFont(undefined, "normal");
     pdf.text(`Plan: ${submissionData.planName}`, 20, 180);
+    pdf.text(`Number of Systems: ${submissionData.noOfSystems}`, 20, 190);
+    pdf.text(`Plan Type: ${submissionData.yearlyPlan ? 'Annual (12 months)' : `${submissionData.months} month${submissionData.months > 1 ? 's' : ''}`}`, 20, 200);
+    
+    if (planKey !== 'enterprise') {
+      pdf.setFont(undefined, "bold");
+      pdf.text("Pricing", 20, 220);
+      
+      pdf.setFont(undefined, "normal");
+      pdf.text(`Monthly Cost: SAR ${submissionData.monthlyPrice}`, 20, 235);
+      pdf.setFont(undefined, "bold");
+      pdf.text(`Total Cost: SAR ${submissionData.totalPrice}`, 20, 245);
+    }
 
     pdf.setFontSize(9);
     pdf.setTextColor(128, 128, 128);
@@ -427,12 +487,44 @@ export default function PlanPage() {
                           {submissionData.name}
                         </span>
                       </div>
-                      <div className="flex justify-between items-center">
+                      <div className="flex justify-between items-center border-b border-muted pb-3">
                         <span className="text-muted-foreground">
                           Email
                         </span>
                         <span className="font-semibold text-xs">
                           {submissionData.email}
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-center border-b border-muted pb-3">
+                        <span className="text-muted-foreground">
+                          Systems
+                        </span>
+                        <span className="font-semibold">
+                          {submissionData.noOfSystems}
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-center border-b border-muted pb-3">
+                        <span className="text-muted-foreground">
+                          Plan Type
+                        </span>
+                        <span className="font-semibold">
+                          {submissionData.yearlyPlan ? 'Annual (12 months)' : `${submissionData.months} month${submissionData.months > 1 ? 's' : ''}`}
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-center border-b border-muted pb-3">
+                        <span className="text-muted-foreground">
+                          Monthly Cost
+                        </span>
+                        <span className="font-semibold text-green-400">
+                          SAR {submissionData.monthlyPrice}
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-muted-foreground font-bold">
+                          Total Cost
+                        </span>
+                        <span className="font-bold text-xl text-blue-400">
+                          SAR {submissionData.totalPrice}
                         </span>
                       </div>
                     </div>
@@ -514,6 +606,68 @@ export default function PlanPage() {
                       placeholder="City, Country"
                     />
                   </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold mb-2">
+                      Number of Systems *
+                    </label>
+                    <input
+                      type="number"
+                      name="noOfSystems"
+                      value={formData.noOfSystems}
+                      onChange={handleInputChange}
+                      min="1"
+                      required
+                      className="w-full bg-background border border-muted rounded-lg px-4 py-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition"
+                      placeholder="1"
+                    />
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <input
+                      type="checkbox"
+                      name="yearlyPlan"
+                      checked={formData.yearlyPlan}
+                      onChange={handleInputChange}
+                      className="w-4 h-4 text-blue-600 bg-background border-muted rounded focus:ring-blue-500 focus:ring-2"
+                    />
+                    <label className="text-sm font-semibold">
+                      Annual Commitment (12 months) - Save more!
+                    </label>
+                  </div>
+
+                  {!formData.yearlyPlan && (
+                    <div>
+                      <label className="block text-sm font-semibold mb-2">
+                        Number of Months *
+                      </label>
+                      <input
+                        type="number"
+                        name="months"
+                        value={formData.months}
+                        onChange={handleInputChange}
+                        min="1"
+                        max="12"
+                        required
+                        className="w-full bg-background border border-muted rounded-lg px-4 py-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition"
+                        placeholder="1"
+                      />
+                    </div>
+                  )}
+
+                  {planKey !== 'enterprise' && (
+                    <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4">
+                      <div className="text-sm text-muted-foreground mb-2">Estimated Pricing:</div>
+                      <div className="flex justify-between items-center mb-1">
+                        <span className="text-sm">Monthly Cost:</span>
+                        <span className="font-bold text-lg">SAR {calculatePricing().monthlyPrice}</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm">Total Cost ({formData.yearlyPlan ? '12' : formData.months} month{formData.yearlyPlan || formData.months > 1 ? 's' : ''}):</span>
+                        <span className="font-bold text-xl text-blue-400">SAR {calculatePricing().totalPrice}</span>
+                      </div>
+                    </div>
+                  )}
 
                   <button
                     type="submit"

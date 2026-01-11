@@ -19,6 +19,9 @@ export async function POST(request: Request) {
       companyName,
       employeeCount,
       challenges,
+      yearlyPlan,
+      noOfSystems,
+      months,
     } = await request.json();
 
     if (!planName || !email || !phone) {
@@ -104,6 +107,9 @@ export async function POST(request: Request) {
           email,
           phone,
           location,
+          yearly_plan: yearlyPlan || false,
+          no_of_systems: noOfSystems || 1,
+          months: months || 1,
           reference_id: referenceId,
           status: "new",
         },
