@@ -14,12 +14,12 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-background text-foreground">
       <Navigation />
-      <Hero />
+      {/* <Hero /> */}
       <PricingCards />
-      <FeatureShowcase />
+      {/* <FeatureShowcase />
       <ProductivitySection />
       <LearningSection />
-      <AgentsSection />
+      <AgentsSection /> */}
       <ComparisonTable />
       <FAQ />
       <Footer />

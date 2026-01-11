@@ -11,7 +11,7 @@ import jsPDF from "jspdf";
 const planDetails = {
   lite: {
     name: "Lite",
-    title: "SAT NOC Lite Plan",
+    title: "Lite",
     originalPrice: "$149",
     firstYearPrice: "$89",
     offerPrice: "$79",
@@ -37,7 +37,7 @@ const planDetails = {
   },
   pro: {
     name: "Pro",
-    title: "SAT NOC Pro Plan",
+    title: "Pro",
     originalPrice: "$249",
     firstYearPrice: "$169",
     offerPrice: "$149",
@@ -64,7 +64,7 @@ const planDetails = {
   },
   ultra: {
     name: "Ultra",
-    title: "SAT NOC Ultra Plan",
+    title: "Ultra",
     originalPrice: "$299",
     firstYearPrice: "$219",
     offerPrice: "$199",
@@ -91,7 +91,7 @@ const planDetails = {
   },
   enterprise: {
     name: "Enterprise",
-    title: "SAT NOC Enterprise Plan",
+    title: "Enterprise",
     pricing: "Custom Pricing",
     responseSLA: "Priority/Custom SLA",
     prioritySLA: "Engineering-led NOC",

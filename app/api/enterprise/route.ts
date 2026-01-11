@@ -1,8 +1,15 @@
 import { NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 
 export async function POST(request: Request) {
   try {
+    if (!isSupabaseConfigured || !supabase) {
+      return NextResponse.json(
+        { error: "Database not configured. Please contact support." },
+        { status: 503 }
+      );
+    }
+
     const { companyName, email, phone, employees, challenges } =
       await request.json();
 
