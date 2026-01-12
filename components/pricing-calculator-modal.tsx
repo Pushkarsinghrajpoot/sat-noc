@@ -101,6 +101,9 @@ export default function PricingCalculatorModal({ isOpen, onClose, selectedPlan }
             <div className="mt-1 text-xs text-gray-300">
               Original: SAR {selectedPlan.originalPrice} → Offer: SAR {selectedPlan.name === 'Lite' ? 109 : selectedPlan.name === 'Pro' ? 199 : 259}
             </div>
+            <div className="mt-1 text-xs text-green-300 font-medium">
+              Limited to first 9 customers only
+            </div>
           </div>
 
           <div className="flex items-center gap-3 p-3 rounded-lg bg-black/30 border border-blue-500/30">
@@ -113,9 +116,7 @@ export default function PricingCalculatorModal({ isOpen, onClose, selectedPlan }
             />
             <label htmlFor="annual" className="text-white font-medium cursor-pointer flex-1 text-sm">
               Annual Commitment <span className="text-green-400 text-xs">
-                {selectedPlan.name === 'Lite' ? '+ Gift (Mini projector)' : 
-                 selectedPlan.name === 'Pro' ? '+ Gift (Tablet)' : 
-                 '+ Gift (2 Months Free + White-Glove Onboarding)'}
+                (Original: SAR {selectedPlan.name === 'Lite' ? 109 : selectedPlan.name === 'Pro' ? 199 : 259} → Offer: SAR {selectedPlan.name === 'Lite' ? 79 : selectedPlan.name === 'Pro' ? 149 : 199})
               </span>
             </label>
           </div>
