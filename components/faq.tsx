@@ -51,24 +51,24 @@ export default function FAQ() {
       <div className="relative z-10 max-w-3xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">Frequently asked questions</h2>
-          <p className="text-lg text-gray-300">Everything you need to know about SAT NOC services</p>
+          <p className="text-lg text-gray-200">Everything you need to know about SAT NOC services</p>
         </div>
 
         <div className="space-y-4">
           {faqs.map((faq, index) => (
-            <div key={index} className="bg-black/70 backdrop-blur-xl border-2 border-white/10 rounded-xl overflow-hidden hover:border-white/20 transition-all">
+            <div key={index} className="bg-black/85 backdrop-blur-xl border-2 border-white/20 rounded-xl overflow-hidden hover:border-white/30 transition-all shadow-xl">
               <button
                 onClick={() => setExpandedIndex(expandedIndex === index ? null : index)}
-                className="w-full flex items-center justify-between p-6 hover:bg-white/5 transition text-left"
+                className="w-full flex items-center justify-between p-6 hover:bg-white/10 transition text-left"
               >
-                <span className="font-semibold text-white text-lg">{faq.question}</span>
+                <span className="font-bold text-white text-lg leading-relaxed">{faq.question}</span>
                 <ChevronDown
                   size={20}
                   className={`flex-shrink-0 text-blue-400 transition-transform ${expandedIndex === index ? "rotate-180" : ""}`}
                 />
               </button>
               {expandedIndex === index && (
-                <div className="px-6 pb-6 text-gray-300 whitespace-pre-wrap border-t border-white/10 bg-black/30">
+                <div className="px-6 pb-6 text-gray-100 whitespace-pre-wrap border-t border-white/20 bg-black/50 leading-relaxed">
                   {faq.answer}
                 </div>
               )}
