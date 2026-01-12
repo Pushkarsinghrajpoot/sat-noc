@@ -2,11 +2,14 @@
 
 import type React from "react";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ArrowLeft, Download } from "lucide-react";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import jsPDF from "jspdf";
+import AnimatedBackground from "@/components/animated-background";
+import Navigation from "@/components/navigation";
+import Footer from "@/components/footer";
 
 const planDetails = {
   lite: {
@@ -120,6 +123,7 @@ const planDetails = {
 
 export default function PlanPage() {
   const params = useParams();
+  const searchParams = useSearchParams();
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -130,6 +134,18 @@ export default function PlanPage() {
     noOfSystems: 1,
     months: 1,
   });
+
+  useEffect(() => {
+    const systems = searchParams.get('systems');
+    const annual = searchParams.get('annual');
+    
+    if (systems) {
+      setFormData(prev => ({ ...prev, noOfSystems: parseInt(systems) || 1 }));
+    }
+    if (annual === 'true') {
+      setFormData(prev => ({ ...prev, yearlyPlan: true }));
+    }
+  }, [searchParams]);
 
   const [submissionData, setSubmissionData] = useState<{
     id: string;
@@ -151,10 +167,11 @@ export default function PlanPage() {
 
   if (!plan) {
     return (
-      <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold mb-4">Plan not found</h1>
-          <p className="text-muted-foreground mb-6">
+      <div className="min-h-screen text-foreground flex items-center justify-center">
+        <AnimatedBackground />
+        <div className="relative z-10 text-center">
+          <h1 className="text-4xl font-bold mb-4 text-white">Plan not found</h1>
+          <p className="text-gray-300 mb-6">
             The plan you're looking for doesn't exist.
           </p>
           <Link
@@ -334,38 +351,42 @@ export default function PlanPage() {
   };
 
   return (
-    <main className="min-h-screen bg-background text-foreground">
-      <div className="border-b border-muted/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <Link
-            href="/"
-            className="flex items-center gap-2 text-blue-400 hover:text-blue-300 mb-4 w-fit"
-          >
-            <ArrowLeft size={20} />
-            Back to pricing
-          </Link>
-          <h1 className="text-4xl font-bold mb-2">{plan.title}</h1>
-          <p className="text-muted-foreground text-lg">{plan.description}</p>
+    <main className="min-h-screen text-foreground">
+      <AnimatedBackground />
+      <Navigation />
+      
+      <div className="relative z-10">
+        <div className="border-b border-white/10 bg-black/20 backdrop-blur-sm">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <Link
+              href="/"
+              className="flex items-center gap-2 text-blue-400 hover:text-blue-300 mb-4 w-fit transition"
+            >
+              <ArrowLeft size={20} />
+              Back to pricing
+            </Link>
+            <h1 className="text-4xl font-bold mb-2 text-white">{plan.title}</h1>
+            <p className="text-gray-300 text-lg">{plan.description}</p>
+          </div>
         </div>
-      </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* LEFT SECTION */}
           <div>
             {/* Pricing */}
-            <div className="bg-muted/30 border border-muted rounded-2xl p-8 mb-8">
-              <h2 className="text-2xl font-bold mb-6">{plan.title} Plan</h2>
+            <div className="bg-black/70 backdrop-blur-xl border border-white/10 rounded-2xl p-8 mb-8">
+              <h2 className="text-2xl font-bold mb-6 text-white">{plan.title} Plan</h2>
 
               <div className="space-y-4">
                 {/* Best For */}
-                <div className="bg-black/20 rounded-lg p-4">
+                <div className="bg-black/40 rounded-lg p-4 border border-white/10">
                   <h3 className="text-sm font-bold text-blue-400 mb-2">Best For</h3>
                   <p className="text-sm text-gray-300">{plan.prioritySLA}</p>
                 </div>
 
                 {/* Response SLA */}
-                <div className="bg-black/20 rounded-lg p-4">
+                <div className="bg-black/40 rounded-lg p-4 border border-white/10">
                   <h3 className="text-sm font-bold text-blue-400 mb-2">Response SLA</h3>
                   <p className="text-lg font-semibold">{plan.responseSLA}</p>
                 </div>
@@ -373,12 +394,12 @@ export default function PlanPage() {
                 {planKey !== 'enterprise' ? (
                   <>
                     {/* Pricing Table */}
-                    <div className="bg-black/20 rounded-lg p-4">
+                    <div className="bg-black/40 rounded-lg p-4 border border-white/10">
                       <h3 className="text-sm font-bold text-blue-400 mb-3">Pricing Options</h3>
                       <div className="space-y-3">
-                        <div className="flex justify-between items-center pb-2 border-b border-gray-700">
+                        <div className="flex justify-between items-center pb-2 border-b border-white/10">
                           <span className="text-sm text-gray-400">List Price (Per Device/Month)</span>
-                          <span className="font-bold text-lg">{plan.originalPrice}</span>
+                          <span className="font-bold text-lg text-white">{plan.originalPrice}</span>
                         </div>
                         <div className="flex justify-between items-center pb-2 border-b border-gray-700">
                           <span className="text-sm text-gray-400">Annual Commitment (Year-1)</span>
@@ -423,7 +444,7 @@ export default function PlanPage() {
                     </div>
                   </>
                 ) : (
-                  <div className="bg-black/20 rounded-lg p-4">
+                  <div className="bg-black/40 rounded-lg p-4 border border-white/10">
                     <h3 className="text-sm font-bold text-blue-400 mb-2">Pricing</h3>
                     <p className="text-lg font-semibold text-purple-400">Custom Pricing</p>
                     <p className="text-sm text-gray-400 mt-2">Contact our sales team for a tailored quote</p>
@@ -433,30 +454,30 @@ export default function PlanPage() {
             </div>
 
             {/* Features */}
-            <div className="mb-8">
-              <h3 className="text-xl font-bold mb-4">Key Features</h3>
+            <div className="mb-8 bg-black/70 backdrop-blur-xl border border-white/10 rounded-2xl p-8">
+              <h3 className="text-xl font-bold mb-4 text-white">Key Features</h3>
               <ul className="space-y-3">
                 {plan.features.map((feature, idx) => (
                   <li key={idx} className="flex gap-3">
                     <span className="text-blue-400 font-bold flex-shrink-0">
                       ✓
                     </span>
-                    <span className="text-foreground">{feature}</span>
+                    <span className="text-gray-200">{feature}</span>
                   </li>
                 ))}
               </ul>
             </div>
 
             {/* Additional Services */}
-            <div>
-              <h3 className="text-xl font-bold mb-4">Additional Services</h3>
+            <div className="bg-black/70 backdrop-blur-xl border border-white/10 rounded-2xl p-8">
+              <h3 className="text-xl font-bold mb-4 text-white">Additional Services</h3>
               <ul className="space-y-3">
                 {plan.additionalServices.map((service, idx) => (
                   <li key={idx} className="flex gap-3">
                     <span className="text-purple-400 font-bold flex-shrink-0">
                       ◆
                     </span>
-                    <span className="text-muted-foreground">{service}</span>
+                    <span className="text-gray-300">{service}</span>
                   </li>
                 ))}
               </ul>
@@ -465,8 +486,8 @@ export default function PlanPage() {
 
           {/* RIGHT SECTION */}
           <div>
-            <div className="bg-muted/30 border border-muted rounded-2xl p-8 sticky top-8">
-              <h2 className="text-2xl font-bold mb-6">Get Started</h2>
+            <div className="bg-black/70 backdrop-blur-xl border border-white/10 rounded-2xl p-8 sticky top-8">
+              <h2 className="text-2xl font-bold mb-6 text-white">Get Started</h2>
 
               {formSubmitted && submissionData ? (
                 <div className="space-y-6">
@@ -577,7 +598,7 @@ export default function PlanPage() {
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-5">
                   <div>
-                    <label className="block text-sm font-semibold mb-2">
+                    <label className="block text-sm font-semibold mb-2 text-gray-200">
                       Full Name *
                     </label>
                     <input
@@ -586,13 +607,13 @@ export default function PlanPage() {
                       value={formData.name}
                       onChange={handleInputChange}
                       required
-                      className="w-full bg-background border border-muted rounded-lg px-4 py-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition"
+                      className="w-full bg-black/40 border border-white/20 rounded-lg px-4 py-3 text-white placeholder:text-gray-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 transition"
                       placeholder="John Doe"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold mb-2">
+                    <label className="block text-sm font-semibold mb-2 text-gray-200">
                       Email Address *
                     </label>
                     <input
@@ -601,13 +622,13 @@ export default function PlanPage() {
                       value={formData.email}
                       onChange={handleInputChange}
                       required
-                      className="w-full bg-background border border-muted rounded-lg px-4 py-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition"
+                      className="w-full bg-black/40 border border-white/20 rounded-lg px-4 py-3 text-white placeholder:text-gray-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 transition"
                       placeholder="john@company.com"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold mb-2">
+                    <label className="block text-sm font-semibold mb-2 text-gray-200">
                       Phone Number *
                     </label>
                     <input
@@ -616,13 +637,13 @@ export default function PlanPage() {
                       value={formData.phone}
                       onChange={handleInputChange}
                       required
-                      className="w-full bg-background border border-muted rounded-lg px-4 py-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition"
+                      className="w-full bg-black/40 border border-white/20 rounded-lg px-4 py-3 text-white placeholder:text-gray-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 transition"
                       placeholder="+1 (555) 000-0000"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold mb-2">
+                    <label className="block text-sm font-semibold mb-2 text-gray-200">
                       Location/Place *
                     </label>
                     <input
@@ -631,13 +652,13 @@ export default function PlanPage() {
                       value={formData.place}
                       onChange={handleInputChange}
                       required
-                      className="w-full bg-background border border-muted rounded-lg px-4 py-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition"
+                      className="w-full bg-black/40 border border-white/20 rounded-lg px-4 py-3 text-white placeholder:text-gray-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 transition"
                       placeholder="City, Country"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold mb-2">
+                    <label className="block text-sm font-semibold mb-2 text-gray-200">
                       Number of Systems *
                     </label>
                     <input
@@ -647,7 +668,7 @@ export default function PlanPage() {
                       onChange={handleInputChange}
                       min="1"
                       required
-                      className="w-full bg-background border border-muted rounded-lg px-4 py-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition"
+                      className="w-full bg-black/40 border border-white/20 rounded-lg px-4 py-3 text-white placeholder:text-gray-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 transition"
                       placeholder="1"
                     />
                   </div>
@@ -658,16 +679,16 @@ export default function PlanPage() {
                       name="yearlyPlan"
                       checked={formData.yearlyPlan}
                       onChange={handleInputChange}
-                      className="w-4 h-4 text-blue-600 bg-background border-muted rounded focus:ring-blue-500 focus:ring-2"
+                      className="w-5 h-5 text-blue-600 bg-black/40 border-blue-500 rounded focus:ring-blue-500 focus:ring-2 cursor-pointer"
                     />
-                    <label className="text-sm font-semibold">
+                    <label className="text-sm font-semibold text-white cursor-pointer">
                       Annual Commitment (12 months) - Save more!
                     </label>
                   </div>
 
                   {!formData.yearlyPlan && (
                     <div>
-                      <label className="block text-sm font-semibold mb-2">
+                      <label className="block text-sm font-semibold mb-2 text-gray-200">
                         Number of Months *
                       </label>
                       <input
@@ -678,21 +699,21 @@ export default function PlanPage() {
                         min="1"
                         max="12"
                         required
-                        className="w-full bg-background border border-muted rounded-lg px-4 py-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition"
+                        className="w-full bg-black/40 border border-white/20 rounded-lg px-4 py-3 text-white placeholder:text-gray-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 transition"
                         placeholder="1"
                       />
                     </div>
                   )}
 
                   {planKey !== 'enterprise' && (
-                    <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4">
-                      <div className="text-sm text-muted-foreground mb-2">Estimated Pricing:</div>
+                    <div className="bg-gradient-to-br from-blue-600/30 to-purple-600/30 border-2 border-blue-500/50 rounded-lg p-4">
+                      <div className="text-sm text-gray-300 mb-2">Estimated Pricing:</div>
                       <div className="flex justify-between items-center mb-1">
-                        <span className="text-sm">Monthly Cost:</span>
-                        <span className="font-bold text-lg">SAR {calculatePricing().monthlyPrice}</span>
+                        <span className="text-sm text-gray-300">Monthly Cost:</span>
+                        <span className="font-bold text-lg text-green-400">SAR {calculatePricing().monthlyPrice}</span>
                       </div>
                       <div className="flex justify-between items-center">
-                        <span className="text-sm">Total Cost ({formData.yearlyPlan ? '12' : formData.months} month{formData.yearlyPlan || formData.months > 1 ? 's' : ''}):</span>
+                        <span className="text-sm text-gray-300">Total Cost ({formData.yearlyPlan ? '12' : formData.months} month{formData.yearlyPlan || formData.months > 1 ? 's' : ''}):</span>
                         <span className="font-bold text-xl text-blue-400">SAR {calculatePricing().totalPrice}</span>
                       </div>
                     </div>
@@ -700,15 +721,18 @@ export default function PlanPage() {
 
                   <button
                     type="submit"
-                    className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-background transition"
+                    className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition shadow-lg shadow-blue-500/30"
                   >
-                    Get Started
+                    Buy Now
                   </button>
                 </form>
               )}
             </div>
           </div>
         </div>
+      </div>
+      
+      <Footer />
       </div>
     </main>
   );

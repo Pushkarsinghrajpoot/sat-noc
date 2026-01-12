@@ -34,10 +34,18 @@ export default function Navigation() {
             <a href="#compare" className="text-sm text-muted-foreground hover:text-foreground transition">
               Plans and pricing
             </a>
+            <a href="/contact" className="text-sm text-muted-foreground hover:text-foreground transition">
+              Contact Us
+            </a>
           </div>
 
           {/* Sign Up Button */}
           <div className="hidden md:flex items-center gap-4">
+            <a href="https://care.satmz.com/" target="_blank" rel="noopener noreferrer">
+              <button className="px-6 py-2 rounded-full bg-transparent border border-blue-600 text-blue-600 text-sm font-medium hover:bg-blue-600/10 transition">
+                Login
+              </button>
+            </a>
             <a href="/demo">
               <button className="px-6 py-2 rounded-full bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 transition">
                 Get Demo
@@ -63,11 +71,21 @@ export default function Navigation() {
             <a href="#compare" className="block text-sm text-muted-foreground hover:text-foreground transition py-2">
               Plans and pricing
             </a>
-            <a href="/demo">
-              <button className="w-full mt-4 px-6 py-2 rounded-full bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 transition">
-                Get Demo
-              </button>
+            <a href="/contact" className="block text-sm text-muted-foreground hover:text-foreground transition py-2">
+              Contact Us
             </a>
+            <div className="flex gap-2 mt-4">
+              <a href="https://care.satmz.com/" target="_blank" rel="noopener noreferrer" className="flex-1">
+                <button className="w-full px-6 py-2 rounded-full bg-transparent border border-blue-600 text-blue-600 text-sm font-medium hover:bg-blue-600/10 transition">
+                  Login
+                </button>
+              </a>
+              <a href="/demo" className="flex-1">
+                <button className="w-full px-6 py-2 rounded-full bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 transition">
+                  Get Demo
+                </button>
+              </a>
+            </div>
           </div>
         )}
       </div>

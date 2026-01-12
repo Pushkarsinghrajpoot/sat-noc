@@ -2,15 +2,16 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { ArrowRight, Plus } from "lucide-react"
+import { ArrowRight } from "lucide-react"
+import PricingCalculatorModal from "./pricing-calculator-modal"
 
 interface PricingTier {
   name: string
   tagline: string
   storage: string
   features: string
-  originalPrice?: string
-  price: string
+  originalPrice: number
+  price: number
   offerPrice?: string
   cta: string
   ctaType: "primary" | "secondary"
@@ -25,9 +26,9 @@ const tiers: PricingTier[] = [
     tagline: "Get more done with 24×7 monitoring and alert management for your infrastructure.",
     storage: "Response SLA: 45 min",
     features: "Watch & alert only",
-    originalPrice: "SAR 149",
-    price: "SAR 79/month",
-    
+    originalPrice: 149,
+    price: 79,
+    badge: "January Offer",
     cta: "Get Lite",
     ctaType: "primary",
     detailedFeatures: [
@@ -43,8 +44,9 @@ const tiers: PricingTier[] = [
     tagline: "Higher service level with incident ownership and complete troubleshooting support.",
     storage: "Response SLA: 30 mins",
     features: "Monitor & fix common issues",
-    originalPrice: "SAR 249",
-    price: "SAR 149/month",
+    originalPrice: 249,
+    price: 149,
+    badge: "January Offer",
     cta: "Get Pro",
     ctaType: "primary",
     detailedFeatures: [
@@ -62,7 +64,9 @@ const tiers: PricingTier[] = [
     tagline: "Push what's possible with proactive problem management and optimization roadmap.",
     storage: "Response SLA: 15 mins",
     features: "Prevent issues proactively",
-    price: "SAR 199/month",
+    originalPrice: 249,
+    price: 199,
+    badge: "January Offer",
     cta: "Get Ultra",
     ctaType: "primary",
     detailedFeatures: [
@@ -78,7 +82,21 @@ const tiers: PricingTier[] = [
 ]
 
 export default function PricingCards() {
-  const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
+  const [modalOpen, setModalOpen] = useState(false)
+  const [selectedPlan, setSelectedPlan] = useState<{
+    name: string
+    price: number
+    originalPrice: number
+  } | null>(null)
+
+  const openCalculator = (tier: typeof tiers[0]) => {
+    setSelectedPlan({
+      name: tier.name,
+      price: tier.price,
+      originalPrice: tier.originalPrice,
+    })
+    setModalOpen(true)
+  }
 
   return (
     <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative">
@@ -136,19 +154,20 @@ export default function PricingCards() {
               </div>
 
               <div className="mb-6 pb-6 border-b border-gray-700">
-                {tier.originalPrice && (
-                  <div className="text-sm line-through text-gray-500 mb-1">
-                    {tier.originalPrice}
-                  </div>
-                )}
-                <div className="text-xl font-semibold text-white">
-                  {tier.price}
+                <div className="text-sm line-through text-gray-500 mb-1">
+                  SAR {tier.originalPrice}
+                </div>
+                <div className="text-2xl font-bold text-white">
+                  SAR {tier.price}/month
+                </div>
+                <div className="text-xs text-gray-400 mt-1">
+                  Per system pricing
                 </div>
               </div>
 
-              <Link 
-                href={`/plans/${tier.name.split(' ') }`}
-                className={`w-full py-3 px-6 rounded-full font-medium text-center transition-all transform hover:scale-105 inline-flex items-center justify-center gap-2 mb-4 ${
+              <button
+                onClick={() => openCalculator(tier)}
+                className={`w-full py-3 px-6 rounded-full font-medium text-center transition-all transform hover:scale-105 inline-flex items-center justify-center gap-2 mb-6 ${
                   tier.ctaType === "primary"
                     ? "bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-500/30"
                     : "border-2 border-gray-600 hover:border-gray-500 text-white hover:bg-white/5"
@@ -156,26 +175,16 @@ export default function PricingCards() {
               >
                 {tier.cta}
                 <ArrowRight size={16} />
-              </Link>
-
-              <button 
-                onClick={() => setExpandedIndex(expandedIndex === index ? null : index)}
-                className="w-full text-sm font-medium text-blue-400 hover:text-blue-300 transition inline-flex items-center justify-center gap-1"
-              >
-                View plan features
-                <Plus size={16} className={`transition-transform ${expandedIndex === index ? "rotate-45" : ""}`} />
               </button>
 
-              {expandedIndex === index && (
-                <div className="mt-6 pt-6 border-t border-gray-700 space-y-3">
-                  {tier.detailedFeatures.map((feature, idx) => (
-                    <div key={idx} className="flex items-start gap-2 text-sm text-gray-300">
-                      <span className="text-blue-400 mt-0.5">•</span>
-                      <span>{feature}</span>
-                    </div>
-                  ))}
-                </div>
-              )}
+              <div className="pt-6 border-t border-gray-700 space-y-3">
+                {tier.detailedFeatures.map((feature, idx) => (
+                  <div key={idx} className="flex items-start gap-2 text-sm text-gray-300">
+                    <span className="text-blue-400 mt-0.5">•</span>
+                    <span>{feature}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         ))}
@@ -201,6 +210,12 @@ export default function PricingCards() {
           </button>
         </Link>
       </div>
+
+      <PricingCalculatorModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        selectedPlan={selectedPlan || undefined}
+      />
     </section>
   )
 }
