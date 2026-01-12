@@ -8,39 +8,46 @@ export default function AnimatedBackground() {
       <div className="absolute inset-0 bg-[#000000]" />
       
       <div 
-        className="absolute inset-0 opacity-80"
+        className="absolute top-[-10%] left-[-5%] w-[70%] h-[70%] rounded-full opacity-60 blur-[100px]"
         style={{
-          background: 'linear-gradient(135deg, #2d5f2d 0%, #5c8a3d 10%, #9baa4e 20%, #d4b85e 30%, #e69558 40%, #d66565 50%, #b84f8f 60%, #7d5fa5 70%, #5c7abd 80%, #4d8fc4 90%, #3da5c4 100%)',
-          backgroundSize: '400% 400%',
-          animation: 'gradientShift 20s ease infinite',
+          background: 'radial-gradient(circle, rgba(99, 102, 241, 1) 0%, rgba(139, 92, 246, 0.8) 30%, transparent 60%)',
+          animation: 'float-orb-1 25s ease-in-out infinite',
         }}
       />
       
       <div 
-        className="absolute inset-0 opacity-70 blur-[120px]"
+        className="absolute top-[5%] right-[-10%] w-[65%] h-[65%] rounded-full opacity-60 blur-[100px]"
         style={{
-          background: 'radial-gradient(circle at 20% 30%, rgba(76, 175, 80, 0.6) 0%, transparent 40%), radial-gradient(circle at 80% 30%, rgba(33, 150, 243, 0.6) 0%, transparent 40%)',
-          animation: 'float-slow 15s ease-in-out infinite',
+          background: 'radial-gradient(circle, rgba(236, 72, 153, 1) 0%, rgba(219, 39, 119, 0.8) 30%, transparent 60%)',
+          animation: 'float-orb-2 30s ease-in-out infinite',
         }}
       />
       
       <div 
-        className="absolute inset-0 opacity-70 blur-[120px]"
+        className="absolute bottom-[-15%] left-[10%] w-[75%] h-[75%] rounded-full opacity-60 blur-[100px]"
         style={{
-          background: 'radial-gradient(circle at 30% 70%, rgba(156, 39, 176, 0.6) 0%, transparent 40%), radial-gradient(circle at 70% 70%, rgba(244, 67, 54, 0.6) 0%, transparent 40%)',
-          animation: 'float-slow-reverse 18s ease-in-out infinite',
+          background: 'radial-gradient(circle, rgba(59, 130, 246, 1) 0%, rgba(37, 99, 235, 0.8) 30%, transparent 60%)',
+          animation: 'float-orb-3 28s ease-in-out infinite',
         }}
       />
       
       <div 
-        className="absolute inset-0 opacity-60 blur-[100px]"
+        className="absolute bottom-[10%] right-[5%] w-[60%] h-[60%] rounded-full opacity-60 blur-[100px]"
         style={{
-          background: 'radial-gradient(circle at 50% 50%, rgba(255, 193, 7, 0.4) 0%, transparent 50%)',
-          animation: 'pulse-glow 8s ease-in-out infinite',
+          background: 'radial-gradient(circle, rgba(168, 85, 247, 1) 0%, rgba(147, 51, 234, 0.8) 30%, transparent 60%)',
+          animation: 'float-orb-4 32s ease-in-out infinite',
         }}
       />
       
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/30 to-black/70" />
+      <div 
+        className="absolute top-[35%] left-[35%] w-[50%] h-[50%] rounded-full opacity-50 blur-[90px]"
+        style={{
+          background: 'radial-gradient(circle, rgba(14, 165, 233, 1) 0%, rgba(6, 182, 212, 0.8) 30%, transparent 60%)',
+          animation: 'float-orb-5 27s ease-in-out infinite',
+        }}
+      />
+      
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/10 to-black/40" />
     </div>
   )
 }

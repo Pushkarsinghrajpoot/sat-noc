@@ -207,6 +207,66 @@
   }
 }
 
+@keyframes float-orb-1 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(15%, 20%) scale(1.1);
+  }
+  66% {
+    transform: translate(-10%, -15%) scale(0.95);
+  }
+}
+
+@keyframes float-orb-2 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(-20%, 15%) scale(1.05);
+  }
+  66% {
+    transform: translate(10%, -20%) scale(0.9);
+  }
+}
+
+@keyframes float-orb-3 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(-15%, -18%) scale(1.08);
+  }
+  66% {
+    transform: translate(18%, 12%) scale(0.92);
+  }
+}
+
+@keyframes float-orb-4 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(12%, -22%) scale(0.95);
+  }
+  66% {
+    transform: translate(-18%, 15%) scale(1.1);
+  }
+}
+
+@keyframes float-orb-5 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(-12%, 18%) scale(1.05);
+  }
+  66% {
+    transform: translate(15%, -12%) scale(0.98);
+  }
+}
+
 @layer utilities {
   .animate-float {
     animation: float 6s ease-in-out infinite;

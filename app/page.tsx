@@ -9,10 +9,12 @@ import AgentsSection from "@/components/agents-section"
 import ComparisonTable from "@/components/comparison-table"
 import FAQ from "@/components/faq"
 import Footer from "@/components/footer"
+import AnimatedBackground from "@/components/animated-background"
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-background text-foreground">
+    <main className="min-h-screen text-foreground">
+      <AnimatedBackground />
       <Navigation />
       {/* <Hero /> */}
       <PricingCards />
