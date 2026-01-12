@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { ChevronDown } from "lucide-react"
+import AnimatedBackground from "./animated-background"
 
 interface FAQItem {
   question: string
@@ -44,29 +45,36 @@ export default function FAQ() {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(0)
 
   return (
-    <section id="faq" className="py-20 px-4 sm:px-6 lg:px-8 max-w-3xl mx-auto">
-      <h2 className="text-4xl font-bold mb-12">Frequently asked questions</h2>
+    <section id="faq" className="relative py-20 px-4 sm:px-6 lg:px-8">
+      <AnimatedBackground />
+      
+      <div className="relative z-10 max-w-3xl mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">Frequently asked questions</h2>
+          <p className="text-lg text-gray-300">Everything you need to know about SAT NOC services</p>
+        </div>
 
-      <div className="space-y-4">
-        {faqs.map((faq, index) => (
-          <div key={index} className="border border-muted rounded-lg overflow-hidden">
-            <button
-              onClick={() => setExpandedIndex(expandedIndex === index ? null : index)}
-              className="w-full flex items-center justify-between p-6 hover:bg-muted/30 transition text-left"
-            >
-              <span className="font-semibold text-foreground">{faq.question}</span>
-              <ChevronDown
-                size={20}
-                className={`flex-shrink-0 transition-transform ${expandedIndex === index ? "rotate-180" : ""}`}
-              />
-            </button>
-            {expandedIndex === index && (
-              <div className="px-6 pb-6 text-muted-foreground whitespace-pre-wrap border-t border-muted">
-                {faq.answer}
-              </div>
-            )}
-          </div>
-        ))}
+        <div className="space-y-4">
+          {faqs.map((faq, index) => (
+            <div key={index} className="bg-black/70 backdrop-blur-xl border-2 border-white/10 rounded-xl overflow-hidden hover:border-white/20 transition-all">
+              <button
+                onClick={() => setExpandedIndex(expandedIndex === index ? null : index)}
+                className="w-full flex items-center justify-between p-6 hover:bg-white/5 transition text-left"
+              >
+                <span className="font-semibold text-white text-lg">{faq.question}</span>
+                <ChevronDown
+                  size={20}
+                  className={`flex-shrink-0 text-blue-400 transition-transform ${expandedIndex === index ? "rotate-180" : ""}`}
+                />
+              </button>
+              {expandedIndex === index && (
+                <div className="px-6 pb-6 text-gray-300 whitespace-pre-wrap border-t border-white/10 bg-black/30">
+                  {faq.answer}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   )

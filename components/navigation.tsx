@@ -39,16 +39,16 @@ export default function Navigation() {
             </a>
           </div>
 
-          {/* Sign Up Button */}
+          {/* Action Buttons */}
           <div className="hidden md:flex items-center gap-4">
             <a href="https://care.satmz.com/" target="_blank" rel="noopener noreferrer">
               <button className="px-6 py-2 rounded-full bg-transparent border border-blue-600 text-blue-600 text-sm font-medium hover:bg-blue-600/10 transition">
                 Login
               </button>
             </a>
-            <a href="/demo">
+            <a href="/contact">
               <button className="px-6 py-2 rounded-full bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 transition">
-                Get Demo
+                Contact Us
               </button>
             </a>
           </div>
@@ -80,9 +80,9 @@ export default function Navigation() {
                   Login
                 </button>
               </a>
-              <a href="/demo" className="flex-1">
+              <a href="/contact" className="flex-1">
                 <button className="w-full px-6 py-2 rounded-full bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 transition">
-                  Get Demo
+                  Contact Us
                 </button>
               </a>
             </div>

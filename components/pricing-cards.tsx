@@ -23,26 +23,27 @@ interface PricingTier {
 const tiers: PricingTier[] = [
   {
     name: "Lite",
-    tagline: "Get more done with 24×7 monitoring and alert management for your infrastructure.",
-    storage: "Response SLA: 45 min",
-    features: "Watch & alert only",
+    tagline: "Always-on visibility and alerts for every device",
+    storage: "24×7 active monitoring",
+    features: "Watch & Alert",
     originalPrice: 149,
     price: 79,
     badge: "January Offer",
     cta: "Get Lite",
     ctaType: "primary",
     detailedFeatures: [
-      "24×7 monitoring of infra & applications",
-      "Servers, network devices & Applications monitoring",
-      "Alerts & ticket creation & escalation",
-      "Monthly availability reporting",
+      "Response SLA: 45 minutes",
+      "24×7 active watch over your IT environment",
+      "Real-time alerts with full coordination",
+      "Enterprise monitoring and ticketing platform license bundled",
+      "Health dashboard with clear system visibility",
       "First 9 customers get Mini Projector",
     ],
   },
   {
     name: "Pro",
-    tagline: "Higher service level with incident ownership and complete troubleshooting support.",
-    storage: "Response SLA: 30 mins",
+    tagline: "Incident ownership and issue resolution per device",
+    storage: "Monitor, fix & own issues",
     features: "Monitor & fix common issues",
     originalPrice: 249,
     price: 149,
@@ -50,39 +51,40 @@ const tiers: PricingTier[] = [
     cta: "Get Pro",
     ctaType: "primary",
     detailedFeatures: [
+      "Response SLA: 30 minutes",
       "All Lite features",
-      "Incident ownership till resolution",
-      "Troubleshooting, fixes & standard changes",
-      "ISP / OEM vendor coordination",
-      "Alert noise reduction & tuning",
-      "Custom dashboards & reports",
+      "Fixing issues, not just detecting them",
+      "Handling of routine changes",
+      "Technical governance",
+      "Monthly executive technical review with recommendations",
       "First 9 customers get Tablet",
     ],
   },
   {
     name: "Ultra",
-    tagline: "Push what's possible with proactive problem management and optimization roadmap.",
-    storage: "Response SLA: 15 mins",
+    tagline: "Proactive optimization and senior engineering oversight",
+    storage: "Prevent Issues and L3 Engineering",
     features: "Prevent issues proactively",
-    originalPrice: 249,
+    originalPrice: 299,
     price: 199,
     badge: "January Offer",
     cta: "Get Ultra",
     ctaType: "primary",
     detailedFeatures: [
-      "All Pro features",
-      "Proactive problem management",
-      "Capacity & performance trends",
-      "Automation via runbooks",
-      "Advanced impact analysis",
-      "Optimization roadmap",
-      "First 9 customers get 2 Months Free Service",
+      "Response SLA: 15 minutes",
+      "All Smart features",
+      "Proactive issue handling using automation and trends",
+      "Key system changes, upgrades, and migrations",
+      "Assigned L3 engineer for expert guidance and escalation",
+      "Business-aligned technical reporting",
+      "First 9 customers get 2 Months Free + White-Glove Onboarding",
     ],
   },
 ]
 
 export default function PricingCards() {
   const [modalOpen, setModalOpen] = useState(false)
+  const [coveragePopupOpen, setCoveragePopupOpen] = useState(false)
   const [selectedPlan, setSelectedPlan] = useState<{
     name: string
     price: number
@@ -104,18 +106,28 @@ export default function PricingCards() {
         <div className="inline-flex items-center justify-center w-16 h-16 mb-6 rounded-2xl bg-gradient-to-br from-blue-500/20 to-purple-500/20 backdrop-blur-sm">
           <div className="w-8 h-8 bg-gradient-to-br from-green-400 via-yellow-400 to-blue-500 rounded-lg transform rotate-45" />
         </div>
-        <h1 className="text-5xl sm:text-6xl font-bold mb-4">
-          Power your uptime with a{" "}
-          <span className="text-blue-500">Pro</span> plan
+        <h1 className="text-6xl sm:text-7xl lg:text-8xl font-bold mb-6 leading-tight">
+          One price. One device.{" "}
+          <span className="text-blue-500">Total IT operations</span>
         </h1>
-        <div className="mt-8">
-          <Link 
+        <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-6">
+          We monitor, manage, and support your IT operations — billed per device.
+        </p>
+        <div className="mt-8 flex items-center justify-center gap-4">
+          {/* <Link 
             href="/plans/pro"
             className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full font-medium transition-all transform hover:scale-105"
           >
             Get Pro - Most Popular
             <ArrowRight size={18} />
-          </Link>
+          </Link> */}
+          <button
+            onClick={() => setCoveragePopupOpen(true)}
+            className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full font-medium transition-all transform hover:scale-105"
+          >
+            View devices & coverage
+            <ArrowRight size={18} />
+          </button>
         </div>
       </div>
 
@@ -216,6 +228,73 @@ export default function PricingCards() {
         onClose={() => setModalOpen(false)}
         selectedPlan={selectedPlan || undefined}
       />
+
+      {/* Coverage Popup */}
+      {coveragePopupOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div 
+            className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+            onClick={() => setCoveragePopupOpen(false)}
+          />
+          
+          <div className="relative w-full max-w-2xl bg-black/90 backdrop-blur-xl border-2 border-blue-500/40 rounded-3xl p-8 shadow-2xl">
+            <button
+              onClick={() => setCoveragePopupOpen(false)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl"
+            >
+              ×
+            </button>
+
+            <h2 className="text-3xl font-bold text-white mb-6">Devices & Coverage</h2>
+            
+            <div className="space-y-6">
+              <div>
+                <h3 className="text-xl font-semibold text-blue-400 mb-3">Supported Devices</h3>
+                <ul className="space-y-2 text-gray-300">
+                  <li className="flex items-start gap-2">
+                    <span className="text-blue-400 mt-1">•</span>
+                    <span>Servers (Physical & Virtual)</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-blue-400 mt-1">•</span>
+                    <span>Network Devices (Routers, Switches, Firewalls)</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-blue-400 mt-1">•</span>
+                    <span>Applications & Services</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-blue-400 mt-1">•</span>
+                    <span>Cloud Infrastructure (AWS, Azure, GCP)</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-blue-400 mt-1">•</span>
+                    <span>Databases & Storage Systems</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div>
+                <h3 className="text-xl font-semibold text-blue-400 mb-3">Coverage Scope</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="p-4 bg-black/40 rounded-lg border border-blue-500/30">
+                    <h4 className="font-semibold text-white mb-2">Lite</h4>
+                    <p className="text-sm text-gray-400">24×7 active monitoring</p>
+                  </div>
+                  <div className="p-4 bg-black/40 rounded-lg border border-blue-500/30">
+                    <h4 className="font-semibold text-white mb-2">Pro</h4>
+                    <p className="text-sm text-gray-400">Monitor, fix & own issues</p>
+                  </div>
+                  <div className="p-4 bg-black/40 rounded-lg border border-blue-500/30">
+                    <h4 className="font-semibold text-white mb-2">Ultra</h4>
+                    <p className="text-sm text-gray-400">Prevent Issues and L3 Engineering</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   )
 }
