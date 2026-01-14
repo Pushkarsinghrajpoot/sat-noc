@@ -66,13 +66,13 @@ const featureCategories: FeatureCategory[] = [
         name: "Day-to-day operational work to keep existing IT running reliably",
         lite: false,
         pro: true,
-        ultra: false,
+        ultra: true,
       },
       {
         name: "Execution of standard operational procedures",
         lite: false,
         pro: true,
-        ultra: false,
+        ultra: true,
       },
       {
         name: "Proactive issue handling using automation and trends",
