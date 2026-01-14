@@ -3,18 +3,18 @@ import { NextRequest, NextResponse } from 'next/server'
 
 // Validate environment variables
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
-if (!supabaseUrl || !supabaseServiceKey) {
+if (!supabaseUrl || !supabaseAnonKey) {
   console.error('Missing Supabase environment variables:', {
     NEXT_PUBLIC_SUPABASE_URL: !!supabaseUrl,
-    SUPABASE_SERVICE_ROLE_KEY: !!supabaseServiceKey
+    NEXT_PUBLIC_SUPABASE_ANON_KEY: !!supabaseAnonKey
   })
 }
 
 // Initialize Supabase client only if environment variables are available
-const supabase = supabaseUrl && supabaseServiceKey 
-  ? createClient(supabaseUrl, supabaseServiceKey)
+const supabase = supabaseUrl && supabaseAnonKey 
+  ? createClient(supabaseUrl, supabaseAnonKey)
   : null
 
 export async function POST(request: NextRequest) {
@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
     // Check if Supabase is available
     if (!supabase) {
       return NextResponse.json(
-        { error: 'Database service unavailable. Please configure Supabase environment variables.' },
+        { error: 'Database service unavailable. Please check NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in .env.local' },
         { status: 503 }
       )
     }
@@ -94,7 +94,7 @@ export async function GET(request: NextRequest) {
     // Check if Supabase is available
     if (!supabase) {
       return NextResponse.json(
-        { error: 'Database service unavailable. Please configure Supabase environment variables.' },
+        { error: 'Database service unavailable. Please check NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in .env.local' },
         { status: 503 }
       )
     }
@@ -148,7 +148,7 @@ export async function PATCH(request: NextRequest) {
     // Check if Supabase is available
     if (!supabase) {
       return NextResponse.json(
-        { error: 'Database service unavailable. Please configure Supabase environment variables.' },
+        { error: 'Database service unavailable. Please check NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in .env.local' },
         { status: 503 }
       )
     }
