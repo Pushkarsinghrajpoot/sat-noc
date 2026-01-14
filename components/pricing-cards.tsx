@@ -23,9 +23,9 @@ interface PricingTier {
 const tiers: PricingTier[] = [
   {
     name: "Lite",
-    tagline: "Always-on visibility and alerts for every device",
+    tagline: "Watch & alert only",
     storage: "24×7 active monitoring",
-    features: "Watch & Alert",
+    features: "Watch & alert only",
     originalPrice: 149,
     price: 79,
     badge: "January Offer",
@@ -33,18 +33,18 @@ const tiers: PricingTier[] = [
     ctaType: "primary",
     detailedFeatures: [
       "Response SLA: 45 minutes",
+      "Device Pack: 1–300 devices",
       "24×7 active watch over your IT environment",
       "Real-time alerts with full coordination",
       "Enterprise monitoring and ticketing platform license bundled",
       "Health dashboard with clear system visibility",
-      "First 9 customers get Mini Projector",
     ],
   },
   {
-    name: "Pro",
-    tagline: "Incident ownership and issue resolution per device",
+    name: "Pro ⭐",
+    tagline: "Monitor and fix common issues",
     storage: "Monitor, fix & own issues",
-    features: "Monitor & fix common issues",
+    features: "Monitor and fix common issues",
     originalPrice: 249,
     price: 149,
     badge: "January Offer",
@@ -52,32 +52,32 @@ const tiers: PricingTier[] = [
     ctaType: "primary",
     detailedFeatures: [
       "Response SLA: 30 minutes",
+      "Device Pack: 1–300 devices",
       "All Lite features",
       "Fixing issues, not just detecting them",
-      "Handling of routine changes",
-      "Technical governance",
-      "Monthly executive technical review with recommendations",
-      "First 9 customers get Tablet",
+      "Day-to-day operational work to keep existing IT running reliably",
+      "Execution of standard operational procedures",
     ],
   },
   {
     name: "Ultra",
-    tagline: "Proactive optimization and senior engineering oversight",
-    storage: "Prevent Issues and L3 Engineering",
-    features: "Prevent issues proactively",
-    originalPrice: 299,
-    price: 199,
+    tagline: "Prevent issues proactively with senior engineering support",
+    storage: "Proactive engineering & planning",
+    features: "Proactively prevent issues with senior engineering support",
+    originalPrice: 349,
+    price: 249,
     badge: "January Offer",
     cta: "Get Ultra",
     ctaType: "primary",
     detailedFeatures: [
       "Response SLA: 15 minutes",
-      "All Smart features",
+      "Device Pack: 1–300 devices",
+      "All Pro features",
       "Proactive issue handling using automation and trends",
-      "Key system changes, upgrades, and migrations",
+      "Engineering work involving design and planning",
+      "Expansion, restructuring, or advanced technical changes",
       "Assigned L3 engineer for expert guidance and escalation",
       "Business-aligned technical reporting",
-      "First 9 customers get 2 Months Free + White-Glove Onboarding",
     ],
   },
 ]
@@ -85,11 +85,22 @@ const tiers: PricingTier[] = [
 export default function PricingCards() {
   const [modalOpen, setModalOpen] = useState(false)
   const [coveragePopupOpen, setCoveragePopupOpen] = useState(false)
+  const [expandedCards, setExpandedCards] = useState<Set<number>>(new Set())
   const [selectedPlan, setSelectedPlan] = useState<{
     name: string
     price: number
     originalPrice: number
   } | null>(null)
+
+  const toggleCardExpansion = (index: number) => {
+    const newExpanded = new Set(expandedCards)
+    if (newExpanded.has(index)) {
+      newExpanded.delete(index)
+    } else {
+      newExpanded.add(index)
+    }
+    setExpandedCards(newExpanded)
+  }
 
   const openCalculator = (tier: typeof tiers[0]) => {
     setSelectedPlan({
@@ -138,65 +149,70 @@ export default function PricingCards() {
             className="relative group"
           >
             <div 
-              className="h-full rounded-3xl p-8 bg-black/40 backdrop-blur-sm border-2 border-blue-500/30 hover:border-blue-500/60 transition-all duration-300 flex flex-col"
-              style={{
-                boxShadow: '0 0 40px rgba(59, 130, 246, 0.1)',
-              }}
+              className="h-full rounded-2xl p-6 bg-black/50 backdrop-blur-sm border border-white/10 hover:border-white/20 transition-all duration-300 flex flex-col"
             >
               {tier.badge && (
-                <div className="inline-block px-3 py-1 bg-white text-black text-xs font-semibold rounded-full mb-4 self-start">
+                <div className="inline-block px-3 py-1 bg-green-500 text-white text-xs font-semibold rounded-full mb-4 self-start">
                   {tier.badge}
                 </div>
               )}
 
-              <h3 className="text-3xl font-bold mb-3">
-                <span className="text-blue-400">{tier.name}</span>
-                {tier.superscript && (
-                  <sup className="text-base ml-1">{tier.superscript}</sup>
-                )}
+              <h3 className="text-2xl font-bold mb-2 text-blue-400">
+                {tier.name}
               </h3>
 
-              <p className="text-base text-gray-300 mb-6 leading-relaxed">
+              <p className="text-sm text-gray-300 mb-6 leading-relaxed">
                 {tier.tagline}
               </p>
 
-              <div className="mb-6 space-y-2">
-                <div className="text-2xl font-bold text-white">{tier.storage}</div>
-                <div className="text-sm text-gray-400">{tier.features}</div>
-              </div>
-
               <div className="mb-6 pb-6 border-b border-gray-700">
-                <div className="text-sm line-through text-gray-500 mb-1">
+                <div className="text-sm text-gray-400 line-through mb-1">
                   SAR {tier.originalPrice}
                 </div>
-                <div className="text-2xl font-bold text-white">
-                  SAR {tier.price}/month
+                <div className="text-3xl font-bold text-white mb-1">
+                  SAR {tier.price}
+                  <span className="text-lg text-gray-400 font-normal">/month</span>
                 </div>
-                <div className="text-xs text-gray-400 mt-1">
-                  Per system pricing
+                <div className="text-xs text-green-400 font-medium">
+                  Save {Math.round(((tier.originalPrice - tier.price) / tier.originalPrice) * 100)}% • First 9 customers only
                 </div>
+              </div>
+
+              <div className="flex-1 mb-6">
+                <div className="text-lg font-semibold text-white mb-4">{tier.storage}</div>
+                <div className="space-y-3">
+                  {tier.detailedFeatures.slice(0, expandedCards.has(index) ? tier.detailedFeatures.length : 3).map((feature, idx) => (
+                    <div key={idx} className="flex items-start gap-2 text-sm text-gray-300">
+                      <span className="text-blue-400 mt-0.5">•</span>
+                      <span>{feature}</span>
+                    </div>
+                  ))}
+                </div>
+                
+                {tier.detailedFeatures.length > 3 && (
+                  <button
+                    onClick={() => toggleCardExpansion(index)}
+                    className="flex items-center gap-2 text-blue-400 hover:text-blue-300 text-sm font-medium transition-colors mt-2"
+                  >
+                    <span className="text-lg">
+                      {expandedCards.has(index) ? '−' : '+'}
+                    </span>
+                    {expandedCards.has(index) ? 'Show less' : `Show ${tier.detailedFeatures.length - 3} more features`}
+                  </button>
+                )}
               </div>
 
               <button
                 onClick={() => openCalculator(tier)}
-                className={`w-full py-3 px-6 rounded-full font-medium text-center transition-all transform hover:scale-105 inline-flex items-center justify-center gap-2 mb-6 ${
+                className={`w-full py-3 px-6 rounded-xl font-semibold text-center transition-all transform hover:scale-105 inline-flex items-center justify-center gap-2 ${
                   tier.ctaType === "primary"
-                    ? "bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-500/30"
+                    ? "bg-blue-600 hover:bg-blue-700 text-white shadow-lg"
                     : "border-2 border-gray-600 hover:border-gray-500 text-white hover:bg-white/5"
                 }`}
               >
                 {tier.cta}
                 <ArrowRight size={16} />
               </button>
-
-              <div className="pt-6 border-t border-gray-700 space-y-3">
-                {tier.detailedFeatures.map((feature, idx) => (
-                  <div key={idx} className="flex items-start gap-2 text-sm text-gray-300">
-                    <span className="text-blue-400 mt-0.5">•</span>
-                    <span>{feature}</span>
-                  </div>
-                ))}
-              </div>
             </div>
           </div>
         ))}
@@ -237,57 +253,120 @@ export default function PricingCards() {
             onClick={() => setCoveragePopupOpen(false)}
           />
           
-          <div className="relative w-full max-w-2xl bg-black/90 backdrop-blur-xl border-2 border-blue-500/40 rounded-3xl p-8 shadow-2xl">
-            <button
-              onClick={() => setCoveragePopupOpen(false)}
-              className="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl"
-            >
-              ×
-            </button>
+          <div className="relative w-full max-w-5xl bg-black/90 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl max-h-[85vh] overflow-hidden flex flex-col">
+            {/* Header */}
+            <div className="p-6 border-b border-white/10">
+              <div className="flex items-start justify-between">
+                <div>
+                  <h2 className="text-3xl font-bold text-white mb-2">Supported Devices & Platforms</h2>
+                  <p className="text-gray-300">
+                    Customers may include any number and combination of the following devices or platforms.
+                    Each selected item is counted as a separate managed device or platform under the chosen service plan.
+                  </p>
+                </div>
+                <button
+                  onClick={() => setCoveragePopupOpen(false)}
+                  className="p-2 hover:bg-white/10 rounded-full transition-colors text-gray-400 hover:text-white ml-4"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+            </div>
 
-            <h2 className="text-3xl font-bold text-white mb-6">Devices & Coverage</h2>
-            
-            <div className="space-y-6">
-              <div>
-                <h3 className="text-xl font-semibold text-blue-400 mb-3">Supported Devices</h3>
-                <ul className="space-y-2 text-gray-300">
-                  <li className="flex items-start gap-2">
-                    <span className="text-blue-400 mt-1">•</span>
-                    <span>Servers (Physical & Virtual)</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-blue-400 mt-1">•</span>
-                    <span>Network Devices (Routers, Switches, Firewalls)</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-blue-400 mt-1">•</span>
-                    <span>Applications & Services</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-blue-400 mt-1">•</span>
-                    <span>Cloud Infrastructure (AWS, Azure, GCP)</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-blue-400 mt-1">•</span>
-                    <span>Databases & Storage Systems</span>
-                  </li>
-                </ul>
+            {/* Scrollable Content */}
+            <div className="flex-1 overflow-y-auto p-6">
+              {/* Coverage Table */}
+              <div className="mb-8">
+                <div className="bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-xl border border-blue-500/20 overflow-hidden">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="border-b border-blue-500/30">
+                        <th className="px-6 py-4 text-left text-blue-400 font-semibold">Category</th>
+                        <th className="px-6 py-4 text-left text-blue-400 font-semibold">Devices / Systems Covered</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-white/5">
+                      <tr className="hover:bg-white/5 transition-colors">
+                        <td className="px-6 py-4 font-medium text-white flex items-center gap-2">
+                          <span className="text-xl">🖥️</span> Compute & Platforms
+                        </td>
+                        <td className="px-6 py-4 text-gray-300 text-sm">
+                          Physical servers (Dell, HPE, Lenovo), virtual machines (VMware, Hyper-V, KVM), cloud compute platforms such as AWS EC2, Azure VM, OCI Compute, and GCP Compute, as well as file servers.
+                        </td>
+                      </tr>
+                      <tr className="hover:bg-white/5 transition-colors">
+                        <td className="px-6 py-4 font-medium text-white flex items-center gap-2">
+                          <span className="text-xl">💾</span> Backup & Recovery
+                        </td>
+                        <td className="px-6 py-4 text-gray-300 text-sm">
+                          Backup platforms including Veeam, Acronis, and Commvault.
+                        </td>
+                      </tr>
+                      <tr className="hover:bg-white/5 transition-colors">
+                        <td className="px-6 py-4 font-medium text-white flex items-center gap-2">
+                          <span className="text-xl">🌐</span> Network & Connectivity
+                        </td>
+                        <td className="px-6 py-4 text-gray-300 text-sm">
+                          Core switches, access switches, routers, wireless controllers, and wireless access points.
+                        </td>
+                      </tr>
+                      <tr className="hover:bg-white/5 transition-colors">
+                        <td className="px-6 py-4 font-medium text-white flex items-center gap-2">
+                          <span className="text-xl">🔒</span> Security & Identity
+                        </td>
+                        <td className="px-6 py-4 text-gray-300 text-sm">
+                          Firewalls, secure web gateways/proxies, SIEM and log platforms, IAM/PAM platforms.
+                        </td>
+                      </tr>
+                      <tr className="hover:bg-white/5 transition-colors">
+                        <td className="px-6 py-4 font-medium text-white flex items-center gap-2">
+                          <span className="text-xl">📊</span> Productivity Platforms
+                        </td>
+                        <td className="px-6 py-4 text-gray-300 text-sm">
+                          Microsoft 365 core services (Exchange Online, SharePoint Online, OneDrive), Microsoft Teams (health and availability), Active Directory, Azure AD (Entra ID), email flow and mailbox availability.
+                        </td>
+                      </tr>
+                      <tr className="hover:bg-white/5 transition-colors">
+                        <td className="px-6 py-4 font-medium text-white flex items-center gap-2">
+                          <span className="text-xl">📹</span> Physical & Edge Systems
+                        </td>
+                        <td className="px-6 py-4 text-gray-300 text-sm">
+                          CCTV systems (IP cameras, NVRs, VMS), access control systems, time & attendance systems, IoT and edge gateways.
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
 
+              {/* Note Section */}
+              <div className="mb-6">
+                <div className="p-4 bg-yellow-500/10 rounded-lg border border-yellow-500/30">
+                  <div className="flex items-start gap-3">
+                    <span className="text-xl">📝</span>
+                    <div>
+                      <h4 className="font-semibold text-yellow-400 mb-1">Note</h4>
+                      <p className="text-sm text-gray-300">
+                        The above list is indicative. Additional standard business IT devices or centrally managed platforms may be included depending on scope and the selected service plan.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Golden Rule Section */}
               <div>
-                <h3 className="text-xl font-semibold text-blue-400 mb-3">Coverage Scope</h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="p-4 bg-black/40 rounded-lg border border-blue-500/30">
-                    <h4 className="font-semibold text-white mb-2">Lite</h4>
-                    <p className="text-sm text-gray-400">24×7 active monitoring</p>
-                  </div>
-                  <div className="p-4 bg-black/40 rounded-lg border border-blue-500/30">
-                    <h4 className="font-semibold text-white mb-2">Pro</h4>
-                    <p className="text-sm text-gray-400">Monitor, fix & own issues</p>
-                  </div>
-                  <div className="p-4 bg-black/40 rounded-lg border border-blue-500/30">
-                    <h4 className="font-semibold text-white mb-2">Ultra</h4>
-                    <p className="text-sm text-gray-400">Prevent Issues and L3 Engineering</p>
+                <div className="p-4 bg-gradient-to-r from-green-500/10 to-emerald-500/10 rounded-lg border border-green-500/30">
+                  <div className="flex items-start gap-3">
+                    <span className="text-xl">⚡</span>
+                    <div>
+                      <h4 className="font-semibold text-green-400 mb-1">Golden Rule</h4>
+                      <p className="text-sm text-gray-300">
+                        A management server is treated as a managed server — not as the environment or devices it supervises.
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>

@@ -14,7 +14,9 @@ export const metadata: Metadata = {
     "Enterprise-grade NOC software + 24×7 managed operations service. Choose from Lite, Pro, Ultra or Enterprise plans. Monitor, detect, resolve and prevent infrastructure issues.",
   generator: "SATMZ",
   icons: {
-    
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
   },
 }
 

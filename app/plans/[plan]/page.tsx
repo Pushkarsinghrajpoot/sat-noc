@@ -15,10 +15,10 @@ const planDetails = {
   lite: {
     name: "Lite",
     title: "Lite",
-    originalPrice: "$149",
-    firstYearPrice: "$89",
-    offerPrice: "$79",
-    monthlyCommitment: "$109",
+    originalPrice: "SAR 149",
+    firstYearPrice: "SAR 89",
+    offerPrice: "SAR 79",
+    monthlyCommitment: "SAR 109",
     responseSLA: "45 minutes",
     prioritySLA: "Watch & alert only",
     description:
@@ -39,12 +39,12 @@ const planDetails = {
     ],
   },
   pro: {
-    name: "Pro",
-    title: "Pro",
-    originalPrice: "$249",
-    firstYearPrice: "$169",
-    offerPrice: "$149",
-    monthlyCommitment: "$199",
+    name: "Pro ⭐",
+    title: "Pro ⭐",
+    originalPrice: "SAR 249",
+    firstYearPrice: "SAR 169",
+    offerPrice: "SAR 149",
+    monthlyCommitment: "SAR 199",
     responseSLA: "30 minutes",
     prioritySLA: "Monitor & fix common issues",
     description:
@@ -68,10 +68,10 @@ const planDetails = {
   ultra: {
     name: "Ultra",
     title: "Ultra",
-    originalPrice: "$299",
-    firstYearPrice: "$219",
-    offerPrice: "$199",
-    monthlyCommitment: "$259",
+    originalPrice: "SAR 349",
+    firstYearPrice: "SAR 269",
+    offerPrice: "SAR 249",
+    monthlyCommitment: "SAR 259",
     responseSLA: "15 minutes",
     prioritySLA: "Prevent issues proactively",
     description:
@@ -204,15 +204,17 @@ export default function PlanPage() {
       return { monthlyPrice: 0, totalPrice: 0 };
     }
 
+    // January Offer pricing automatically applied
     const prices: any = {
-      lite: { yearly: 89, monthly: 109, offer: 79 },
-      pro: { yearly: 169, monthly: 199, offer: 149 },
-      ultra: { yearly: 219, monthly: 259, offer: 199 },
+      lite: { yearly: 89, monthly: 79, offer: 79 },
+      'pro': { yearly: 169, monthly: 149, offer: 149 },
+      ultra: { yearly: 269, monthly: 249, offer: 249 },
     };
 
     const planPrices = prices[planKey];
     if (!planPrices) return { monthlyPrice: 0, totalPrice: 0 };
 
+    // Always use January Offer pricing (valid until 31 Jan)
     const basePrice = formData.yearlyPlan ? planPrices.yearly : planPrices.monthly;
     const monthlyPrice = basePrice * formData.noOfSystems;
     const totalPrice = formData.yearlyPlan 
@@ -366,7 +368,14 @@ export default function PlanPage() {
               Back to pricing
             </Link>
             <h1 className="text-4xl font-bold mb-2 text-white">{plan.title}</h1>
-            <p className="text-gray-300 text-lg">{plan.description}</p>
+            <p className="text-gray-300 text-lg mb-4">{plan.description}</p>
+            
+            {planKey !== 'enterprise' && (
+              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/40 rounded-lg px-4 py-2 mb-4">
+                <span className="text-green-400 font-bold text-sm">🎉 January Offer Applied!</span>
+                <span className="text-green-300 text-xs">Save up to 47% • Valid until 31 Jan</span>
+              </div>
+            )}
           </div>
         </div>
 

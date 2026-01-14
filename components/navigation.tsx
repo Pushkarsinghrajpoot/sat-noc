@@ -15,28 +15,28 @@ export default function Navigation() {
           {/* Logo */}
            <Link href="/" className="flex items-center">
             <Image
-              src="https://satmz.com/wp-content/uploads/2023/03/main_logo.png"
+              src="/main-logo.png"
               alt="SAT MicroSystems Logo"
-              width={120}
-              height={40}
-              className="h-8 w-auto cursor-pointer"
+              width={180}
+              height={120}
+              className="h-12 w-auto cursor-pointer"
             />
           </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
-            <a href="/" className="text-sm text-muted-foreground hover:text-foreground transition">
+            <Link href="/" className="text-sm text-muted-foreground hover:text-foreground transition">
               Overview
-            </a>
-            <a href="#faq" className="text-sm text-muted-foreground hover:text-foreground transition">
+            </Link>
+            <Link href="/#faq" className="text-sm text-muted-foreground hover:text-foreground transition">
               Capabilities
-            </a>
-            <a href="#compare" className="text-sm text-muted-foreground hover:text-foreground transition">
+            </Link>
+            <Link href="/#compare" className="text-sm text-muted-foreground hover:text-foreground transition">
               Plans and pricing
-            </a>
-            <a href="/contact" className="text-sm text-muted-foreground hover:text-foreground transition">
+            </Link>
+            <Link href="/contact" className="text-sm text-muted-foreground hover:text-foreground transition">
               Contact Us
-            </a>
+            </Link>
           </div>
 
           {/* Action Buttons */}
@@ -46,11 +46,11 @@ export default function Navigation() {
                 Login
               </button>
             </a>
-            <a href="/contact">
+            <Link href="/contact">
               <button className="px-6 py-2 rounded-full bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 transition">
                 Contact Us
               </button>
-            </a>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -62,29 +62,29 @@ export default function Navigation() {
         {/* Mobile Navigation */}
         {isOpen && (
           <div className="md:hidden pb-4 space-y-2">
-            <a href="/" className="block text-sm text-muted-foreground hover:text-foreground transition py-2">
+            <Link href="/" className="block text-sm text-muted-foreground hover:text-foreground transition py-2">
               Overview
-            </a>
-            <a href="#faq" className="block text-sm text-muted-foreground hover:text-foreground transition py-2">
+            </Link>
+            <Link href="/#faq" className="block text-sm text-muted-foreground hover:text-foreground transition py-2">
               Capabilities
-            </a>
-            <a href="#compare" className="block text-sm text-muted-foreground hover:text-foreground transition py-2">
+            </Link>
+            <Link href="/#compare" className="block text-sm text-muted-foreground hover:text-foreground transition py-2">
               Plans and pricing
-            </a>
-            <a href="/contact" className="block text-sm text-muted-foreground hover:text-foreground transition py-2">
+            </Link>
+            <Link href="/contact" className="block text-sm text-muted-foreground hover:text-foreground transition py-2">
               Contact Us
-            </a>
+            </Link>
             <div className="flex gap-2 mt-4">
               <a href="https://care.satmz.com/" target="_blank" rel="noopener noreferrer" className="flex-1">
                 <button className="w-full px-6 py-2 rounded-full bg-transparent border border-blue-600 text-blue-600 text-sm font-medium hover:bg-blue-600/10 transition">
                   Login
                 </button>
               </a>
-              <a href="/contact" className="flex-1">
+              <Link href="/contact" className="flex-1">
                 <button className="w-full px-6 py-2 rounded-full bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 transition">
                   Contact Us
                 </button>
-              </a>
+              </Link>
             </div>
           </div>
         )}

@@ -22,14 +22,28 @@ export default function ContactPage() {
     setIsSubmitting(true)
     
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000))
+      const response = await fetch('/api/contact-us', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+      })
+
+      const result = await response.json()
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Failed to submit form')
+      }
+
       setSubmitStatus("success")
       setFormData({ name: "", email: "", company: "", phone: "", message: "" })
     } catch (error) {
+      console.error('Contact form error:', error)
       setSubmitStatus("error")
     } finally {
       setIsSubmitting(false)
-      setTimeout(() => setSubmitStatus("idle"), 3000)
+      setTimeout(() => setSubmitStatus("idle"), 5000)
     }
   }
 
