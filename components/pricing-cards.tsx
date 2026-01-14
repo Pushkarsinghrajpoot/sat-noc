@@ -277,63 +277,87 @@ export default function PricingCards() {
 
             {/* Scrollable Content */}
             <div className="flex-1 overflow-y-auto p-6">
-              {/* Coverage Table */}
+              {/* Header */}
+              <div className="mb-6">
+                <h3 className="text-xl font-bold text-white mb-2">Supported Devices & How They're Counted</h3>
+              </div>
+
+              {/* Counting Rules */}
               <div className="mb-8">
+                <div className="p-4 bg-blue-500/10 rounded-lg border border-blue-500/30">
+                  <h4 className="font-semibold text-blue-400 mb-3">Counting Rules</h4>
+                  <ul className="space-y-2 text-sm text-gray-300">
+                    <li className="flex items-start gap-2">
+                      <span className="text-blue-400 mt-1">•</span>
+                      <span>Each listed item counts as one (1) device</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-blue-400 mt-1">•</span>
+                      <span>Devices are counted by function, not by how many systems they control</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-blue-400 mt-1">•</span>
+                      <span>Management or control systems are counted as devices themselves</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-blue-400 mt-1">•</span>
+                      <span>Each item is treated as a separate device or platform under the selected plan</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* Device Counting Reference Table */}
+              <div className="mb-8">
+                <h4 className="font-semibold text-white mb-4">Device Counting Reference</h4>
                 <div className="bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-xl border border-blue-500/20 overflow-hidden">
                   <table className="w-full">
                     <thead>
                       <tr className="border-b border-blue-500/30">
-                        <th className="px-6 py-4 text-left text-blue-400 font-semibold">Category</th>
-                        <th className="px-6 py-4 text-left text-blue-400 font-semibold">Devices / Systems Covered</th>
+                        <th className="px-4 py-3 text-left text-blue-400 font-semibold text-sm">Category</th>
+                        <th className="px-4 py-3 text-left text-blue-400 font-semibold text-sm">How Devices Are Counted</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-white/5">
                       <tr className="hover:bg-white/5 transition-colors">
-                        <td className="px-6 py-4 font-medium text-white flex items-center gap-2">
-                          <span className="text-xl">🖥️</span> Compute & Platforms
-                        </td>
-                        <td className="px-6 py-4 text-gray-300 text-sm">
-                          Physical servers (Dell, HPE, Lenovo), virtual machines (VMware, Hyper-V, KVM), cloud compute platforms such as AWS EC2, Azure VM, OCI Compute, and GCP Compute, as well as file servers.
-                        </td>
-                      </tr>
-                      <tr className="hover:bg-white/5 transition-colors">
-                        <td className="px-6 py-4 font-medium text-white flex items-center gap-2">
-                          <span className="text-xl">💾</span> Backup & Recovery
-                        </td>
-                        <td className="px-6 py-4 text-gray-300 text-sm">
-                          Backup platforms including Veeam, Acronis, and Commvault.
+                        <td className="px-4 py-3 font-medium text-white text-sm">Servers (On-prem & Cloud)</td>
+                        <td className="px-4 py-3 text-gray-300 text-sm">
+                          1 physical server = 1 device<br/>
+                          1 virtual machine (VM) = 1 device<br/>
+                          1 cloud VM (AWS EC2, Azure VM, OCI VM, GCP VM) = 1 device<br/>
+                          File server = 1 device
                         </td>
                       </tr>
                       <tr className="hover:bg-white/5 transition-colors">
-                        <td className="px-6 py-4 font-medium text-white flex items-center gap-2">
-                          <span className="text-xl">🌐</span> Network & Connectivity
-                        </td>
-                        <td className="px-6 py-4 text-gray-300 text-sm">
-                          Core switches, access switches, routers, wireless controllers, and wireless access points.
+                        <td className="px-4 py-3 font-medium text-white text-sm">Backup Systems</td>
+                        <td className="px-4 py-3 text-gray-300 text-sm">
+                          Each Backup server or appliance (Veeam, Windows backup) = 1 device
                         </td>
                       </tr>
                       <tr className="hover:bg-white/5 transition-colors">
-                        <td className="px-6 py-4 font-medium text-white flex items-center gap-2">
-                          <span className="text-xl">🔒</span> Security & Identity
-                        </td>
-                        <td className="px-6 py-4 text-gray-300 text-sm">
-                          Firewalls, secure web gateways/proxies, SIEM and log platforms, IAM/PAM platforms.
+                        <td className="px-4 py-3 font-medium text-white text-sm">Network Devices</td>
+                        <td className="px-4 py-3 text-gray-300 text-sm">
+                          Each switch, router, wireless controller, or access point = 1 device
                         </td>
                       </tr>
                       <tr className="hover:bg-white/5 transition-colors">
-                        <td className="px-6 py-4 font-medium text-white flex items-center gap-2">
-                          <span className="text-xl">📊</span> Productivity Platforms
-                        </td>
-                        <td className="px-6 py-4 text-gray-300 text-sm">
-                          Microsoft 365 core services (Exchange Online, SharePoint Online, OneDrive), Microsoft Teams (health and availability), Active Directory, Azure AD (Entra ID), email flow and mailbox availability.
+                        <td className="px-4 py-3 font-medium text-white text-sm">Security Devices</td>
+                        <td className="px-4 py-3 text-gray-300 text-sm">
+                          Each firewall, SIEM server, secure web gateway, IAM/PAM server = 1 device
                         </td>
                       </tr>
                       <tr className="hover:bg-white/5 transition-colors">
-                        <td className="px-6 py-4 font-medium text-white flex items-center gap-2">
-                          <span className="text-xl">📹</span> Physical & Edge Systems
+                        <td className="px-4 py-3 font-medium text-white text-sm">Microsoft 365 & Identity</td>
+                        <td className="px-4 py-3 text-gray-300 text-sm">
+                          Microsoft 365 tenant = 1 device<br/>
+                          Active Directory server = 1 device<br/>
+                          Azure AD (Entra ID) tenant = 1 device
                         </td>
-                        <td className="px-6 py-4 text-gray-300 text-sm">
-                          CCTV systems (IP cameras, NVRs, VMS), access control systems, time & attendance systems, IoT and edge gateways.
+                      </tr>
+                      <tr className="hover:bg-white/5 transition-colors">
+                        <td className="px-4 py-3 font-medium text-white text-sm">Physical & Edge Systems</td>
+                        <td className="px-4 py-3 text-gray-300 text-sm">
+                          Each NVR/VMS, access control server, time & attendance server, or IoT/edge gateway = 1 device
                         </td>
                       </tr>
                     </tbody>
@@ -341,30 +365,30 @@ export default function PricingCards() {
                 </div>
               </div>
 
-              {/* Note Section */}
-              <div className="mb-6">
-                <div className="p-4 bg-yellow-500/10 rounded-lg border border-yellow-500/30">
-                  <div className="flex items-start gap-3">
-                    <span className="text-xl">📝</span>
-                    <div>
-                      <h4 className="font-semibold text-yellow-400 mb-1">Note</h4>
-                      <p className="text-sm text-gray-300">
-                        The above list is indicative. Additional standard business IT devices or centrally managed platforms may be included depending on scope and the selected service plan.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
               {/* Golden Rule Section */}
-              <div>
+              <div className="mb-6">
                 <div className="p-4 bg-gradient-to-r from-green-500/10 to-emerald-500/10 rounded-lg border border-green-500/30">
                   <div className="flex items-start gap-3">
                     <span className="text-xl">⚡</span>
                     <div>
                       <h4 className="font-semibold text-green-400 mb-1">Golden Rule</h4>
                       <p className="text-sm text-gray-300">
-                        A management server is treated as a managed server — not as the environment or devices it supervises.
+                        A management server is managed as a server — not as the environment it controls.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Footer Note */}
+              <div>
+                <div className="p-4 bg-yellow-500/10 rounded-lg border border-yellow-500/30">
+                  <div className="flex items-start gap-3">
+                    <span className="text-xl">📝</span>
+                    <div>
+                      <h4 className="font-semibold text-yellow-400 mb-1">Footer Note</h4>
+                      <p className="text-sm text-gray-300">
+                        The above list is indicative. Any standard business IT device or centrally managed platform may be included based on scope and the selected service plan.
                       </p>
                     </div>
                   </div>
