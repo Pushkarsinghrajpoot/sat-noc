@@ -1,11 +1,21 @@
 import { createClient } from '@supabase/supabase-js'
 import { NextRequest, NextResponse } from 'next/server'
 
-// Initialize Supabase client
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-)
+// Validate environment variables
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+
+if (!supabaseUrl || !supabaseServiceKey) {
+  console.error('Missing Supabase environment variables:', {
+    NEXT_PUBLIC_SUPABASE_URL: !!supabaseUrl,
+    SUPABASE_SERVICE_ROLE_KEY: !!supabaseServiceKey
+  })
+}
+
+// Initialize Supabase client only if environment variables are available
+const supabase = supabaseUrl && supabaseServiceKey 
+  ? createClient(supabaseUrl, supabaseServiceKey)
+  : null
 
 export async function POST(request: NextRequest) {
   try {
@@ -27,6 +37,14 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: 'Invalid email format' },
         { status: 400 }
+      )
+    }
+
+    // Check if Supabase is available
+    if (!supabase) {
+      return NextResponse.json(
+        { error: 'Database service unavailable. Please configure Supabase environment variables.' },
+        { status: 503 }
       )
     }
 
@@ -73,6 +91,14 @@ export async function POST(request: NextRequest) {
 
 export async function GET(request: NextRequest) {
   try {
+    // Check if Supabase is available
+    if (!supabase) {
+      return NextResponse.json(
+        { error: 'Database service unavailable. Please configure Supabase environment variables.' },
+        { status: 503 }
+      )
+    }
+
     // This endpoint can be used by admin to fetch contact submissions
     const { searchParams } = new URL(request.url)
     const status = searchParams.get('status')
@@ -119,6 +145,14 @@ export async function GET(request: NextRequest) {
 
 export async function PATCH(request: NextRequest) {
   try {
+    // Check if Supabase is available
+    if (!supabase) {
+      return NextResponse.json(
+        { error: 'Database service unavailable. Please configure Supabase environment variables.' },
+        { status: 503 }
+      )
+    }
+
     const body = await request.json()
     const { id, status } = body
 
