@@ -28,6 +28,9 @@ export default function Navigation() {
             <Link href="/" className="text-sm text-muted-foreground hover:text-foreground transition">
               Overview
             </Link>
+            <Link href="/about" className="text-sm text-muted-foreground hover:text-foreground transition">
+              About Us
+            </Link>
             <Link href="/#faq" className="text-sm text-muted-foreground hover:text-foreground transition">
               Capabilities
             </Link>
@@ -70,6 +73,9 @@ export default function Navigation() {
             </Link>
             <Link href="/#compare" className="block text-sm text-muted-foreground hover:text-foreground transition py-2">
               Plans and pricing
+            </Link>
+            <Link href="/about" className="block text-sm text-muted-foreground hover:text-foreground transition py-2">
+              About Us
             </Link>
             <Link href="/contact" className="block text-sm text-muted-foreground hover:text-foreground transition py-2">
               Contact Us

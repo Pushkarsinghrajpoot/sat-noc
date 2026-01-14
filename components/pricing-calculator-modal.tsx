@@ -52,7 +52,9 @@ export default function PricingCalculatorModal({ isOpen, onClose, selectedPlan }
       systems: systemCount.toString(),
       annual: annualCommitment.toString(),
     })
-    router.push(`/plans/${selectedPlan.name.toLowerCase()}?${params.toString()}`)
+    // Clean up the plan name for URL routing
+    const planName = selectedPlan.name.replace(' ⭐', '').toLowerCase()
+    router.push(`/plans/${planName}?${params.toString()}`)
   }
 
   return (

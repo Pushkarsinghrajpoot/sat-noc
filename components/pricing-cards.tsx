@@ -112,7 +112,7 @@ export default function PricingCards() {
   }
 
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative">
+    <section id="pricing-cards" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative">
       <div className="text-center mb-16">
         <div className="inline-flex items-center justify-center w-16 h-16 mb-6 rounded-2xl bg-gradient-to-br from-blue-500/20 to-purple-500/20 backdrop-blur-sm">
           <div className="w-8 h-8 bg-gradient-to-br from-green-400 via-yellow-400 to-blue-500 rounded-lg transform rotate-45" />
