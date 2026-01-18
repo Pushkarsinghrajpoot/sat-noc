@@ -4,7 +4,7 @@ import React from "react"
 
 export default function AnimatedBackground() {
   return (
-    <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+    <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none" style={{ contain: 'layout style paint' }}>
       <div className="absolute inset-0 bg-[#000000]" />
       
       <div 
@@ -12,6 +12,9 @@ export default function AnimatedBackground() {
         style={{
           background: 'radial-gradient(circle, rgba(99, 102, 241, 1) 0%, rgba(139, 92, 246, 0.8) 30%, transparent 60%)',
           animation: 'float-orb-1 25s ease-in-out infinite',
+          willChange: 'transform',
+          transform: 'translate3d(0, 0, 0)',
+          backfaceVisibility: 'hidden' as const,
         }}
       />
       
@@ -20,6 +23,9 @@ export default function AnimatedBackground() {
         style={{
           background: 'radial-gradient(circle, rgba(236, 72, 153, 1) 0%, rgba(219, 39, 119, 0.8) 30%, transparent 60%)',
           animation: 'float-orb-2 30s ease-in-out infinite',
+          willChange: 'transform',
+          transform: 'translate3d(0, 0, 0)',
+          backfaceVisibility: 'hidden' as const,
         }}
       />
       
@@ -28,6 +34,9 @@ export default function AnimatedBackground() {
         style={{
           background: 'radial-gradient(circle, rgba(59, 130, 246, 1) 0%, rgba(37, 99, 235, 0.8) 30%, transparent 60%)',
           animation: 'float-orb-3 28s ease-in-out infinite',
+          willChange: 'transform',
+          transform: 'translate3d(0, 0, 0)',
+          backfaceVisibility: 'hidden' as const,
         }}
       />
       
@@ -36,6 +45,9 @@ export default function AnimatedBackground() {
         style={{
           background: 'radial-gradient(circle, rgba(168, 85, 247, 1) 0%, rgba(147, 51, 234, 0.8) 30%, transparent 60%)',
           animation: 'float-orb-4 32s ease-in-out infinite',
+          willChange: 'transform',
+          transform: 'translate3d(0, 0, 0)',
+          backfaceVisibility: 'hidden' as const,
         }}
       />
       
@@ -44,6 +56,9 @@ export default function AnimatedBackground() {
         style={{
           background: 'radial-gradient(circle, rgba(14, 165, 233, 1) 0%, rgba(6, 182, 212, 0.8) 30%, transparent 60%)',
           animation: 'float-orb-5 27s ease-in-out infinite',
+          willChange: 'transform',
+          transform: 'translate3d(0, 0, 0)',
+          backfaceVisibility: 'hidden' as const,
         }}
       />
       
