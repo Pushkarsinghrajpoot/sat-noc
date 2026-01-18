@@ -1,4 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server"
+import { sendEmail, formatContactFormEmail } from "@/lib/email"
 
 export async function POST(request: NextRequest) {
   try {
@@ -35,6 +36,19 @@ export async function POST(request: NextRequest) {
       const error = await response.text()
       console.error("[v0] Supabase error:", error)
       throw new Error("Failed to save to database")
+    }
+
+    // Send email notification
+    try {
+      const emailData = formatContactFormEmail({ name, email, phone }, 'Demo Request')
+      const emailSent = await sendEmail(emailData)
+      
+      if (!emailSent) {
+        console.warn('Email notification failed, but demo request was saved to database')
+      }
+    } catch (emailError) {
+      console.error('Email sending error:', emailError)
+      // Don't fail the request if email fails, just log it
     }
 
     return NextResponse.json({ message: "Demo request submitted successfully" }, { status: 200 })

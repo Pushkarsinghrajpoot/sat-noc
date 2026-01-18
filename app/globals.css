@@ -287,34 +287,6 @@
   }
 }
 
-/* Mobile-optimized animations - opacity only for maximum performance */
-@keyframes mobile-pulse-1 {
-  0%, 100% {
-    opacity: 0.4;
-  }
-  50% {
-    opacity: 0.5;
-  }
-}
-
-@keyframes mobile-pulse-2 {
-  0%, 100% {
-    opacity: 0.4;
-  }
-  50% {
-    opacity: 0.55;
-  }
-}
-
-@keyframes mobile-pulse-3 {
-  0%, 100% {
-    opacity: 0.3;
-  }
-  50% {
-    opacity: 0.4;
-  }
-}
-
 @layer utilities {
   .animate-float {
     animation: float 6s ease-in-out infinite;

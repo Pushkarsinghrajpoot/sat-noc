@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
+import { sendEmail, formatContactFormEmail } from "@/lib/email";
 
 export async function POST(request: Request) {
   try {
@@ -47,6 +48,25 @@ export async function POST(request: Request) {
         { error: error.message },
         { status: 500 }
       );
+    }
+
+    // Send email notification
+    try {
+      const emailData = formatContactFormEmail({ 
+        companyName, 
+        email, 
+        phone, 
+        employees, 
+        challenges 
+      }, 'Enterprise Inquiry')
+      const emailSent = await sendEmail(emailData)
+      
+      if (!emailSent) {
+        console.warn('Email notification failed, but enterprise inquiry was saved to database')
+      }
+    } catch (emailError) {
+      console.error('Email sending error:', emailError)
+      // Don't fail the request if email fails, just log it
     }
 
     return NextResponse.json(

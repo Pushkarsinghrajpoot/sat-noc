@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 import { NextRequest, NextResponse } from 'next/server'
+import { sendEmail, formatContactFormEmail } from '@/lib/email'
 
 // Validate environment variables
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
@@ -69,6 +70,19 @@ export async function POST(request: NextRequest) {
         { error: 'Failed to submit contact form' },
         { status: 500 }
       )
+    }
+
+    // Send email notification
+    try {
+      const emailData = formatContactFormEmail(body, 'Contact Form')
+      const emailSent = await sendEmail(emailData)
+      
+      if (!emailSent) {
+        console.warn('Email notification failed, but form was saved to database')
+      }
+    } catch (emailError) {
+      console.error('Email sending error:', emailError)
+      // Don't fail the request if email fails, just log it
     }
 
     return NextResponse.json(
