@@ -14,7 +14,7 @@ import AnimatedBackground from "@/components/animated-background"
 export default function Home() {
   return (
     <main className="min-h-screen text-foreground">
-      <AnimatedBackground />
+      
       <Navigation />
       {/* <Hero /> */}
       <PricingCards />
