@@ -26,7 +26,7 @@ export async function sendEmail(data: EmailData): Promise<boolean> {
 
     // Send email using Resend
     const { data: result, error } = await resend.emails.send({
-      from: 'onboarding@resend.dev',
+      from: 'SAT NOC <noreply@one.satmz.com>',
       to: [data.to],
       subject: data.subject,
       html: data.html,
@@ -123,7 +123,7 @@ export function formatContactFormEmail(formData: any, formType: string): EmailDa
   `
   
   return {
-    to: 'satmz0001@gmail.com', // Resend trial account - can only send to registered email
+    to: 'info@satmz.com', // Your verified domain email
     subject,
     html,
     text: `${subject}\n\n${JSON.stringify(formData, null, 2)}`
